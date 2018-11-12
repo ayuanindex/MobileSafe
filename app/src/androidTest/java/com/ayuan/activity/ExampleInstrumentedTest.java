@@ -1,4 +1,4 @@
-package com.ayuan.mobilesafe;
+package com.ayuan.activity;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
