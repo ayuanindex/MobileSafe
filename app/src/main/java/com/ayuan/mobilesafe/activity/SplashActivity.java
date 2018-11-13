@@ -63,7 +63,7 @@ public class SplashActivity extends AppCompatActivity {
                 try {
                     //URL url = new URL("http://172.29.255.67:8080/updata.json");
                     //1.封装url地址
-                    URL url = new URL("http://10.0.2.2:8080/updata.json");//仅限于模拟器访问电脑上的tomcat
+                    URL url = new URL("http://10.0.2.2:8080/update.json");//仅限于模拟器访问电脑上的tomcat
                     //2.开启一个链接
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                     //3.设置创建的请求参数（请求头）
