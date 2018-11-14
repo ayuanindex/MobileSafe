@@ -1,33 +1,142 @@
 package com.ayuan.mobilesafe.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.ayuan.mobilesafe.utils.StreamUtil;
+import com.ayuan.mobilesafe.utils.ToastUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class SplashActivity extends AppCompatActivity {
 
+    /**
+     * 更新版本的状态码----100
+     */
+    private static final int UPDATE_VERSION = 100;
+    /**
+     * 进入应用程序的状态码-----101
+     */
+    private static final int ENTER_HOME = 101;
+    /**
+     * url地址出现异常-------102
+     */
+    private static final int URL_ERROR = 102;
+    /**
+     * io流出现异常-------103
+     */
+    private static final int IO_ERROR = 103;
+    /**
+     * json解析异常
+     */
+    private static final int JSON_ERROR = 104;
     private String TAG = "SplashActivity";
     private TextView tv_version_name;
     private int mLoaclVersionCode;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int code = msg.what;
+            switch (code) {
+                case UPDATE_VERSION:
+                    //弹出对话框提示用户更新
+                    showUpdateDialog();
+                    break;
+                case ENTER_HOME:
+                    //进入应用程序主界面
+                    enterHome();
+                    break;
+                case URL_ERROR:
+                    //弹出Toast提示Url异常
+                    ToastUtil.showShort(SplashActivity.this, "url异常");
+                    enterHome();
+                    break;
+                case IO_ERROR:
+                    //弹出Toast提示IO流异常
+                    ToastUtil.showShort(SplashActivity.this, "读取异常");
+                    enterHome();
+                    break;
+                case JSON_ERROR:
+                    //弹出Toast提示json解析异常
+                    ToastUtil.showShort(SplashActivity.this, "json解析异常");
+                    enterHome();
+                    break;
+            }
+        }
+    };
+    private String mVersionName;
+    private String mVersionDes;
+    private String mVersionCode;
+    private String mDownloadUrl;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
         //初始化UI
         initUI();
         //初始化数据
         initData();
+    }
+
+    /**
+     * 弹出对话框，提示用户更新
+     */
+    private void showUpdateDialog() {
+        //对话框，是依赖于Activity存在的
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //设置左上角图标
+        builder.setIcon(android.R.drawable.stat_sys_warning);
+        builder.setTitle("版本更新");
+        //设置描述内容
+        builder.setMessage(mVersionDes);
+        //消极按钮
+        builder.setNegativeButton("稍后再说", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //取消对话框，进入主界面
+                enterHome();
+            }
+        });
+        //积极按钮，立即更新
+        builder.setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //这里执行更新应用程序的代码逻辑(下载apk)
+                ToastUtil.showShort(SplashActivity.this, "开始更新...");
+                /*updataApplication();*/
+            }
+        });
+        builder.show();
+    }
+
+    /**
+     * 进入应用程序的主界面
+     */
+    private void enterHome() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        //在开启一个新的界面后,将导航界面关闭掉(导航界面只可见一次)
+        finish();//此方法会将Activity移除任务栈
     }
 
     /**
@@ -36,7 +145,7 @@ public class SplashActivity extends AppCompatActivity {
     private void initData() {
         //1.获取版本名称
         if (tv_version_name != null) {
-            tv_version_name.setText("版本名称" + getVersionName());
+            tv_version_name.setText("版本名称" + getmVersionName());
         }
         //检测(本地版本号和服务断版本号)是否有更新，如果有更新，提示用户下载
         //2.获取本地版本号
@@ -60,8 +169,10 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 super.run();
+                Message message = Message.obtain();
+                long startTime = System.currentTimeMillis();
                 try {
-                    //URL url = new URL("http://172.29.255.67:8080/updata.json");
+                    //URL url = new URL("http://172.29.255.67:8080/update.json");
                     //1.封装url地址
                     URL url = new URL("http://10.0.2.2:8080/update.json");//仅限于模拟器访问电脑上的tomcat
                     //2.开启一个链接
@@ -76,11 +187,50 @@ public class SplashActivity extends AppCompatActivity {
                         //5.以流的形式，将数据下载下来
                         InputStream inputStream = httpURLConnection.getInputStream();
                         //6.将流转为字符串
-                        String jsonToString = StreamUtil.StreamToString(inputStream);
-                        Log.i(TAG, "json:" + jsonToString);
+                        String json = StreamUtil.StreamToString(inputStream);
+                        //7.json的解析
+                        JSONObject jsonObject = new JSONObject(json);
+                        //解析版本名称
+                        mVersionName = jsonObject.getString("versionName");
+                        //解析版本描述
+                        mVersionDes = jsonObject.getString("versionDes");
+                        //解析版本号
+                        mVersionCode = jsonObject.getString("versionCode");
+                        //解析下载地址
+                        mDownloadUrl = jsonObject.getString("downloadUrl");
+                        //8.比对版本号(服务器版本号>本地版本号，提示用户更新)
+                        if (mLoaclVersionCode != 0 && mLoaclVersionCode < Integer.parseInt(mVersionCode)) {
+                            //9.1提示用户更新(弹出对话框)
+                            message.what = UPDATE_VERSION;
+                        } else {
+                            //9.2进入应用程序主界面
+                            message.what = ENTER_HOME;
+                        }
                     }
-                } catch (Exception e) {
+                } catch (MalformedURLException e) {
                     e.printStackTrace();
+                    message.what = URL_ERROR;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    message.what = IO_ERROR;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    message.what = JSON_ERROR;
+                } finally {
+                    //指定睡眠时间,请求网络的时长超过 4s 则不做处理
+                    //请求时间小于4s，强制让其睡眠满4s
+                    long endTime = System.currentTimeMillis();
+                    if (endTime - startTime < 4000) {
+                        long sleepTime = 4000 - (endTime - startTime);
+                        try {
+                            Thread.sleep(sleepTime);
+                            if (mHandler != null) {
+                                mHandler.sendMessage(message);
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         }.start();
@@ -107,7 +257,7 @@ public class SplashActivity extends AppCompatActivity {
      *
      * @return 应用版本名称，返回NULL代表有异常出现
      */
-    private String getVersionName() {
+    private String getmVersionName() {
         //1.包管理者对象packageManger
         PackageManager packageManager = getPackageManager();
         try {

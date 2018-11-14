@@ -1,5 +1,7 @@
 package com.ayuan.mobilesafe.utils;
 
+import android.support.annotation.Nullable;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
@@ -8,6 +10,7 @@ public class StreamUtil {
      * @param inputStream 流对象
      * @return 流转换成的字符串；返回NULL代表发生异常
      */
+    @Nullable
     public static String StreamToString(InputStream inputStream) {
         //1.在读取的过程中，将读取额内容存储在缓存中然后一次性的转换成字符串返回
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
