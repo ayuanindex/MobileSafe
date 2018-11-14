@@ -6,18 +6,24 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.ayuan.mobilesafe.utils.StreamUtil;
 import com.ayuan.mobilesafe.utils.ToastUtil;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -82,11 +88,11 @@ public class SplashActivity extends AppCompatActivity {
             }
         }
     };
+
     private String mVersionName;
     private String mVersionDes;
     private String mVersionCode;
     private String mDownloadUrl;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,11 +128,72 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //这里执行更新应用程序的代码逻辑(下载apk)
-                ToastUtil.showShort(SplashActivity.this, "开始更新...");
-                /*updataApplication();*/
+                downloadApk(mDownloadUrl);
             }
         });
         builder.show();
+    }
+
+    private void downloadApk(String url) {
+        //apk下载地址，防止apk的所在路径
+        //1.判断sd卡是否可用
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            //2.sd卡存储路径
+            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "mobilesafe.apk";
+            //3.发送请求，获取apk，并且放置到指定的路径下
+            HttpUtils httpUtils = new HttpUtils();
+            /**
+             * 发送请求，传递参数
+             * @param url 下载地址
+             * @param target 存放的目标地址
+             * @param callback
+             */
+            httpUtils.download(url, path, new RequestCallBack<File>() {
+                //刚开始下载时的方法
+                @Override
+                public void onStart() {
+                    super.onStart();
+                    Log.i(TAG, "刚刚开始下载");
+                }
+
+                /**
+                 * 下载过程中的方法
+                 * @param total 下载文件的总大小
+                 * @param current 当前的下载位置
+                 * @param isUploading 是否正在下载
+                 */
+                @Override
+                public void onLoading(long total, long current, boolean isUploading) {
+                    super.onLoading(total, current, isUploading);
+                    Log.i(TAG, "下载中……");
+                    Log.i(TAG, "total:" + total);
+                    Log.i(TAG, "current:" + current);
+                    Log.i(TAG, "isUploading:" + isUploading);
+                }
+
+                /**
+                 * 下载成功
+                 * @param responseInfo
+                 */
+                @Override
+                public void onSuccess(ResponseInfo<File> responseInfo) {
+                    //下载过后放置在sd卡中的文件
+                    Log.i(TAG, "下载成功");
+                    File file = responseInfo.result;
+                    enterHome();
+                }
+
+                /**
+                 * 下载失败
+                 * @param e
+                 * @param s
+                 */
+                @Override
+                public void onFailure(HttpException e, String s) {
+                    Log.i(TAG, "下载失败");
+                }
+            });
+        }
     }
 
     /**
