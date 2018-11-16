@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -139,7 +140,7 @@ public class SplashActivity extends AppCompatActivity {
         //1.判断sd卡是否可用
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             //2.sd卡存储路径
-            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "mobilesafe.apk";
+            final String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "mobilesafe.apk";
             //3.发送请求，获取apk，并且放置到指定的路径下
             HttpUtils httpUtils = new HttpUtils();
             /**
@@ -180,7 +181,10 @@ public class SplashActivity extends AppCompatActivity {
                     //下载过后放置在sd卡中的文件
                     Log.i(TAG, "下载成功");
                     File file = responseInfo.result;
-                    enterHome();
+                    //提示用户安装
+                    if (file != null) {
+                        installApk(file);
+                    }
                 }
 
                 /**
@@ -194,6 +198,24 @@ public class SplashActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    /**
+     * 安装apk的方法
+     *
+     * @param file 需要安装的文件
+     */
+    private void installApk(File file) {
+        //调用系统应用来安装apk，用Intent来进行页面跳转进行安装
+        ToastUtil.showShort(this, "正在安装请稍后");
+        Intent intent = new Intent("android.intent.action.VIEW");
+        intent.addCategory("android.intent.category.DEFAULT");
+        /*//使用文件作为数据源
+        intent.setData(Uri.fromFile(file));
+        //设置安装的类型
+        intent.setType("application/vnd.android.package-archive");*/
+        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+        startActivity(intent);
     }
 
     /**
