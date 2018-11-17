@@ -9,6 +9,13 @@
         android:text="功能列表" />
 
     <!--使用跑马灯效果需要是的控件一直获取焦点-->
+    <!--
+        滚动文字(想要文字出现跑马灯效果必须让文字获取焦点)
+        跑马灯效果:android:ellipsize="marquee"，即将ellipsize的值设置为marquee就是滚动效果，但是想要自动滚动需要为其设置焦点
+        设置焦点:android:foucusable="true"
+        还需将这个控件设置为始终都是获取焦点的
+        android:focusableInTouchMode="true"(就是用手触摸手机不会是这个控件丢失焦点
+    -->
     <TextView
         style="@style/MarqueenStule"
         android:text="前埃克设计的法拉盛的法律卡死了的发卡量深刻搭街坊啦开始觉得分厘卡即使的理发卡顺利打开附件拉萨看见对方了" />
