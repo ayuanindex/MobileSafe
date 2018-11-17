@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="HomeActivity"
-        android:textColor="#000000"
-        android:textSize="20sp" />
+        style="@style/TitleStyle"
+        android:text="功能列表" />
+
+    <!--使用跑马灯效果需要是的控件一直获取焦点-->
+    <TextView
+        style="@style/MarqueenStule"
+        android:text="前埃克设计的法拉盛的法律卡死了的发卡量深刻搭街坊啦开始觉得分厘卡即使的理发卡顺利打开附件拉萨看见对方了" />
 
 </LinearLayout>
