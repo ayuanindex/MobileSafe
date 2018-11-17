@@ -16,8 +16,9 @@
         还需将这个控件设置为始终都是获取焦点的
         android:focusableInTouchMode="true"(就是用手触摸手机不会是这个控件丢失焦点
     -->
-    <TextView
-        style="@style/MarqueenStule"
-        android:text="前埃克设计的法拉盛的法律卡死了的发卡量深刻搭街坊啦开始觉得分厘卡即使的理发卡顺利打开附件拉萨看见对方了" />
-
+    <!--使用自定义能够获取焦点的TextView-->
+    <com.ayuan.mobilesafe.view.FocusTextView
+        style="@style/MarqueenStyle"
+        android:text="前埃克设计的法拉盛的法律卡死了的发卡量深刻搭街坊啦开始觉得分厘卡即使的理发卡顺利打开附件拉萨看见对方了"
+        android:textColor="#000000" />
 </LinearLayout>
