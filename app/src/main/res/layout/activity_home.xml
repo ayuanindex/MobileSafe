@@ -24,8 +24,8 @@
 
     <!--指定GridView的列数：android:numColumns="3"-->
     <!--
-        android:horizontalSpacing="10dp"-》水平方向上的控件间距
-        android:verticalSpacing="10dp"-》竖直方向上的控件间距
+        android:horizontalSpacing="10dp"-》指定内部条目水平方向上的间距
+        android:verticalSpacing="10dp"-》指定内部条目竖直方向上的间距
     -->
     <GridView
         android:id="@+id/gv_home"
