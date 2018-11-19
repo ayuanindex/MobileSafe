@@ -43,15 +43,15 @@
             android:background="#000000" />
             com.ayuan.mobilesafe
     </RelativeLayout>-->
-
-    <com.ayuan.mobilesafe.view.SettingItemView xmlns:mobilesafe="http://schemas.android.com/apk/res/com.ayuan.mobilesafe"
+    <com.ayuan.mobilesafe.view.SettingItemView xmlns:mobilesafe="http://schemas.android.com/apk/com.ayuan.mobilesafe"
         android:id="@+id/siv_update"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content"
+        mobilesafe:desoff="自动更新已关闭"
+        mobilesafe:deson="自动更新已开启"
+        mobilesafe:title="自动更新设置" />
     <!--
         SettingItemView需要在构建布局的时候是定行营的title和des的字符串内容
         自定义属性
     -->
-
 </LinearLayout>
