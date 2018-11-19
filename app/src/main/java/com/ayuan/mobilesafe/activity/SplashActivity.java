@@ -10,11 +10,16 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.animation.AlphaAnimation;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ayuan.mobilesafe.utils.ConstantValue;
+import com.ayuan.mobilesafe.utils.SpUtils;
 import com.ayuan.mobilesafe.utils.StreamUtil;
 import com.ayuan.mobilesafe.utils.ToastUtil;
 import com.lidroid.xutils.HttpUtils;
@@ -95,6 +100,7 @@ public class SplashActivity extends AppCompatActivity {
     private String mVersionDes;
     private String mVersionCode;
     private String mDownloadUrl;
+    private RelativeLayout rl_root;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -261,7 +267,14 @@ public class SplashActivity extends AppCompatActivity {
             3.服务器版本号
             4.新版本apk的下载地址
          */
-        checkVersion();
+        if (SpUtils.getBoolean(this, ConstantValue.OPEN_UPDATE, false)) {
+            //如果设置中已经开启自动更新,则去比对版本号进行更新提示
+            checkVersion();
+        } else {
+            //如果没有开启自动更新，则显示开屏动画后再进入主界面
+            //延时3s进入应用程序主界面
+            mHandler.sendEmptyMessageDelayed(ENTER_HOME, 3000);
+        }
     }
 
     /**
@@ -380,5 +393,9 @@ public class SplashActivity extends AppCompatActivity {
      */
     private void initUI() {
         tv_version_name = (TextView) findViewById(R.id.tv_version_name);
+        rl_root = (RelativeLayout) findViewById(R.id.rl_root);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
+        alphaAnimation.setDuration(2000);
+        rl_root.startAnimation(alphaAnimation);
     }
 }

@@ -41,14 +41,17 @@
             android:layout_height="1dp"
             android:layout_below="@id/tv_des"
             android:background="#000000" />
+            com.ayuan.mobilesafe
     </RelativeLayout>-->
 
-    <com.ayuan.mobilesafe.view.SettingItemView
+    <com.ayuan.mobilesafe.view.SettingItemView xmlns:mobilesafe="http://schemas.android.com/apk/res/com.ayuan.mobilesafe"
         android:id="@+id/siv_update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.ayuan.mobilesafe.view.SettingItemView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <!--
+        SettingItemView需要在构建布局的时候是定行营的title和des的字符串内容
+        自定义属性
+    -->
+
 </LinearLayout>

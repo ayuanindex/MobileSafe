@@ -21,7 +21,7 @@
         android:textColor="#000000" />
 
     <!--
-        让当前的CheckBox不能被点击，即不能够响应事件
+        让当前的CheckBox不能被点击，即不能够响应实际
         android:clickable="false"将此控件设置为不能点击
         android:focusableInTouchMode="false"使得此控件即使被点击了也不能够获取焦点
         android:focusable="false"将此控件设置为不能过去焦点

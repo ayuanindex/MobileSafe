@@ -35,25 +35,6 @@ public class SettingItemView extends RelativeLayout {
         TextView tv_title = (TextView) findViewById(R.id.tv_title);
         tv_des = (TextView) findViewById(R.id.tv_des);
         cb_box = (CheckBox) findViewById(R.id.cb_box);
-        boolean checked = cb_box.isChecked();
-        if (checked) {
-            tv_des.setText("自动更新已开启");
-        } else {
-            tv_des.setText("自动更新已关闭");
-        }
-        /*this.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //判断 条目是否被选中，如果被cb_box已经被选中，则选中条目是将其设置为未选中，若本来为开启，反之亦然
-                boolean flag = isChecked() ? false : true;
-                setCheck(flag);
-                Log.i(TAG, "状态:" + cb_box.isChecked());
-            }
-        });*/
-        /*boolean checked = cb_box.isChecked();
-        if (checked) {
-            tv_des.setText("自动更新已开启");
-        }*/
     }
 
     /**
