@@ -1,11 +1,9 @@
 package com.ayuan.mobilesafe.activity;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -51,7 +49,49 @@ public class HomeActivity extends AppCompatActivity {
         //为GridView控件设置数据
         if (gv_home != null) {
             gv_home.setAdapter(new MyAdapter());
+            //为九宫格单个条目设置点击事件
+            gv_home.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    switch (position) {
+                        case 0:
+                            //手机防盗
+                            break;
+                        case 1:
+                            //通信卫士
+                            break;
+                        case 2:
+                            //软件管理
+                            break;
+                        case 3:
+                            //进程管理
+                            break;
+                        case 4:
+                            //流量统计
+                            break;
+                        case 5:
+                            //手机杀毒
+                            break;
+                        case 6:
+                            //缓存清理
+                            break;
+                        case 7:
+                            //高级工具
+                            break;
+                        case 8:
+                            //设置中心
+                            enterSetting();
+                            break;
+                    }
+                }
+            });
         }
+    }
+
+    //进入设置界面
+    private void enterSetting() {
+        Intent intent = new Intent(this, SettingActivity.class);
+        startActivity(intent);
     }
 
     /**
