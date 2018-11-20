@@ -42,7 +42,6 @@ public class SettingActivity extends AppCompatActivity {
                 siv_update.setCheck(!flag);
                 //将取反后的状态存储到相应的sp中
                 SpUtils.putBoolean(SettingActivity.this, ConstantValue.OPEN_UPDATE, !flag);
-                Log.i(TAG, "状态:" + siv_update.isChecked());
             }
         });
     }

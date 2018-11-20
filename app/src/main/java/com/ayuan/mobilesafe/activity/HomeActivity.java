@@ -1,16 +1,25 @@
 package com.ayuan.mobilesafe.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.ayuan.mobilesafe.utils.ConstantValue;
+import com.ayuan.mobilesafe.utils.SpUtils;
+import com.ayuan.mobilesafe.utils.ToastUtil;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -56,6 +65,8 @@ public class HomeActivity extends AppCompatActivity {
                     switch (position) {
                         case 0:
                             //手机防盗
+                            //开启对话框
+                            showDialog();
                             break;
                         case 1:
                             //通信卫士
@@ -86,6 +97,78 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    /**
+     * 手机防盗对话框判断显示
+     */
+    private void showDialog() {
+        //判断本地是否有存储密码(sp String）
+        String mobile_safe_password = SpUtils.getString(this, ConstantValue.MOBILE_SAFE_PASSWORD, "");
+        //TextUtils.isEmpty字符串为空时返回true
+        if (TextUtils.isEmpty(mobile_safe_password)) {
+            //1.初始设置密码的对话框
+            showSetPasswordDialog();
+        } else {
+            //2.确认密码的对话框
+            showConfirmPasswordDialog();
+        }
+    }
+
+    /**
+     * 弹出确认密码的对话框
+     */
+    private void showConfirmPasswordDialog() {
+
+    }
+
+    /**
+     * 弹出设置密码的对话框
+     */
+    private void showSetPasswordDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //这是自己创建对话框，不是调用默认的对话框
+        final AlertDialog alertDialog = builder.create();
+        //因为需要去自己定义对话框的展示样式，所以需要调用setView（）方法
+        final View inflate = View.inflate(this, R.layout.dialog_set_password, null);
+        //让对话框显示自己定义的view
+        alertDialog.setView(inflate);
+        alertDialog.show();
+        Button btn_submit = (Button) inflate.findViewById(R.id.btn_submit);
+        Button btn_cancel = (Button) inflate.findViewById(R.id.btn_cancel);
+
+        //为确认按钮设置点击事件
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText et_set_password = (EditText) inflate.findViewById(R.id.et_set_password);
+                EditText et_confirm_password = (EditText) inflate.findViewById(R.id.et_confirm_password);
+                String setPassword = et_set_password.getText().toString().trim();
+                String confirmPassword = et_confirm_password.getText().toString().trim();
+                if (!TextUtils.isEmpty(setPassword) && !TextUtils.isEmpty(confirmPassword) && setPassword.equals(confirmPassword)) {
+                    Log.i(TAG, "成功开启页面");
+                    //进入应用手机防盗模块
+                    SpUtils.putString(HomeActivity.this, ConstantValue.MOBILE_SAFE_PASSWORD, setPassword);
+                } else if (TextUtils.isEmpty(confirmPassword) && TextUtils.isEmpty(setPassword)) {
+                    ToastUtil.showShort(HomeActivity.this, "请输入密码");
+                    et_confirm_password.setHint("确认密码");
+                    return;
+                } else {
+                    //设置新提示
+                    et_confirm_password.setHint("两次密码输入不一致");
+                    //将确认密码输入设置为空值
+                    et_confirm_password.setText("");
+                    return;
+                }
+            }
+        });
+        //为取消按钮设置点击实际那
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
     }
 
     //进入设置界面

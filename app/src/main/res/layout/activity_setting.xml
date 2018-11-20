@@ -49,7 +49,14 @@
         android:layout_height="wrap_content"
         mobilesafe:desoff="自动更新已关闭"
         mobilesafe:deson="自动更新已开启"
-        mobilesafe:title="自动更新设置" />
+        mobilesafe:destitle="自动更新设置" />
+
+    <com.ayuan.mobilesafe.view.SettingItemView xmlns:mobilesafe="http://schemas.android.com/apk/com.ayuan.mobilesafe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        mobilesafe:desoff="归属地显示已关闭"
+        mobilesafe:deson="归属地显示已开启"
+        mobilesafe:destitle="电话归属地的显示设置" />
     <!--
         SettingItemView需要在构建布局的时候是定行营的title和des的字符串内容
         自定义属性
