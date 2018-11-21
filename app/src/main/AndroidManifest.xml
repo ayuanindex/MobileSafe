@@ -25,13 +25,13 @@
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
         <activity
             android:name=".SettingActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
         <activity
             android:name=".TestActvity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

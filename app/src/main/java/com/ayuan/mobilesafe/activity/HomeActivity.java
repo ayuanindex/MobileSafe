@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.ayuan.mobilesafe.utils.ConstantValue;
 import com.ayuan.mobilesafe.utils.SpUtils;
-import com.ayuan.mobilesafe.utils.ToastUtil;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -36,7 +35,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         //初始化UI
         initUI();
         //初始化数据的方法
