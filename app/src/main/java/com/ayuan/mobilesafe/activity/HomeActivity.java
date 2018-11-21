@@ -235,7 +235,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
-        //为取消按钮设置点击实际那
+        //为取消按钮设置点击事件
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
