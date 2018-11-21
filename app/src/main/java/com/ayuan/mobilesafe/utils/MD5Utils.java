@@ -2,8 +2,6 @@ package com.ayuan.mobilesafe.utils;
 
 import android.util.Log;
 
-import java.security.AlgorithmConstraints;
-import java.security.AlgorithmParameters;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
