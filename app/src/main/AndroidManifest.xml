@@ -29,8 +29,15 @@
         <activity
             android:name=".SettingActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".SetupOverActivity" />
-        <activity android:name=".SetupOneActivity"></activity>
+        <activity
+            android:name=".SetupOverActivity"
+            android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".SetupOneActivity"
+            android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".SetupTwoActivity"
+            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

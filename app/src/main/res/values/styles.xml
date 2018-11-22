@@ -41,7 +41,7 @@
         <item name="android:layout_alignParentBottom">true</item>
         <item name="android:text">下一页</item>
         <item name="android:layout_alignParentRight">true</item>
-        <item name="android:drawableRight">@android:drawable/ic_media_play</item>
+        <item name="android:drawableRight">@android:drawable/ic_media_ff</item>
         <item name="android:background">@drawable/selector_next_button_bg</item>
     </style>
 </resources>
