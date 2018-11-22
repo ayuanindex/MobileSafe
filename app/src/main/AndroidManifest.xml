@@ -34,10 +34,13 @@
             android:launchMode="singleTask"></activity>
         <activity
             android:name=".SetupOneActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleInstance"></activity>
         <activity
             android:name=".SetupTwoActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleInstance"></activity>
+        <activity
+            android:name=".SetupThreeActivity"
+            android:launchMode="singleInstance"></activity>
     </application>
 
 </manifest>

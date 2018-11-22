@@ -44,4 +44,14 @@
         <item name="android:drawableRight">@android:drawable/ic_media_ff</item>
         <item name="android:background">@drawable/selector_next_button_bg</item>
     </style>
+
+    <style name="PreviousButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:text">上一页</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:drawableLeft">@android:drawable/ic_media_rew</item>
+        <item name="android:background">@drawable/selector_next_button_bg</item>
+    </style>
 </resources>
