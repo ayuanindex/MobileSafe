@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ayuan.mobilesafe.utils.ConstantValue;
+import com.ayuan.mobilesafe.utils.MD5Utils;
 import com.ayuan.mobilesafe.utils.SpUtils;
 
 public class HomeActivity extends AppCompatActivity {
@@ -137,7 +138,9 @@ public class HomeActivity extends AppCompatActivity {
                 String set_password = et_set_password.getText().toString().trim();
                 //从文件中获取密码
                 String repassword = SpUtils.getString(HomeActivity.this, ConstantValue.MOBILE_SAFE_PASSWORD, "");
-                if (TextUtils.isEmpty(set_password)) {
+                //将从对话框中获取的密码进行加密在进行比对
+                String encoder = MD5Utils.encoder(set_password);
+                if (TextUtils.isEmpty(encoder)) {
                     //为输入框设置提示内容
                     et_set_password.setHint("请输入密码");
                     //将提示内容设置为红色
@@ -148,7 +151,7 @@ public class HomeActivity extends AppCompatActivity {
                     translateAnimation.setDuration(200);
                     et_set_password.startAnimation(translateAnimation);
                     return;
-                } else if (!set_password.equals(repassword)) {
+                } else if (!encoder.equals(repassword)) {
                     //将输入框置为空值
                     et_set_password.setText("");
                     //为输入框设置提示内容
@@ -162,7 +165,7 @@ public class HomeActivity extends AppCompatActivity {
                     return;
                 } else {
                     //密码输入正确
-                    Intent intent = new Intent(getApplicationContext(), TestActvity.class);
+                    Intent intent = new Intent(getApplicationContext(), SetupOverActivity.class);
                     startActivity(intent);
                     alertDialog.dismiss();
                 }
@@ -204,9 +207,10 @@ public class HomeActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(setPassword) && !TextUtils.isEmpty(confirmPassword) && setPassword.equals(confirmPassword)) {
                     Log.i(TAG, "成功开启页面");
                     //将设置好的密码存起来
-                    SpUtils.putString(HomeActivity.this, ConstantValue.MOBILE_SAFE_PASSWORD, setPassword);
+                    String encoder = MD5Utils.encoder(setPassword);
+                    SpUtils.putString(HomeActivity.this, ConstantValue.MOBILE_SAFE_PASSWORD, encoder);
                     //进入应用手机防盗模块
-                    Intent intent = new Intent(getApplicationContext(), TestActvity.class);
+                    Intent intent = new Intent(getApplicationContext(), SetupOverActivity.class);
                     startActivity(intent);
                     //跳转到新的界面以后需要将AlertDialog销毁
                     alertDialog.dismiss();

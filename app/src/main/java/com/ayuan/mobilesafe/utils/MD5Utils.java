@@ -20,8 +20,8 @@ public class MD5Utils {
         try {
             //1.指定加密算法类型
             MessageDigest instance = MessageDigest.getInstance(MD5);
-            //2.将需要加密的字符串转换成byte类型的数组，然后进行随机hash算法过程
-            byte[] digest = instance.digest((string + "encoder").getBytes());
+            //2.将需要加密的字符串(加盐)转换成byte类型的数组，然后进行随机hash算法过程
+            byte[] digest = instance.digest((string + "mobilesafe").getBytes());
             //3.循环遍历digest，然后让其生成32位的字符串
             for (byte b : digest) {
                 int i = b & 0xff;//固定写法
@@ -54,7 +54,7 @@ public class MD5Utils {
             //1.指定加密算法类型
             MessageDigest instance = MessageDigest.getInstance(algorithm);
             //2.将需要加密的字符串转换成byte类型的数组，然后进行随机hash算法过程
-            byte[] digest = instance.digest((string + "encoder").getBytes());
+            byte[] digest = instance.digest((string + "mobilesafe").getBytes());
             //3.循环遍历digest，然后让其生成32位的字符串
             for (byte b : digest) {
                 int i = b & 0xff;//固定写法
