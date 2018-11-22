@@ -100,8 +100,7 @@
 
         <Button
             android:id="@+id/btn_next"
-            style="@style/NextButtonStyle"
-            android:text="下一步" />
+            style="@style/NextButtonStyle" />
     </RelativeLayout>
 
 
