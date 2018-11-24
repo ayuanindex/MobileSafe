@@ -18,5 +18,12 @@ public class ConstantValue {
      * SIM卡绑定序列号的key
      */
     public static final String SIM_NUMBER = "sim_number";
-    public static final String SECURITY_NUMBER = "security_number";
+    /**
+     * 选中联系人对应的key
+     */
+    public static final String CONTACT_PHONE = "contact_phone";
+    /**
+     * 是否开启防盗保护的key
+     */
+    public static final String OPEN_SECURITY = "open_security";
 }

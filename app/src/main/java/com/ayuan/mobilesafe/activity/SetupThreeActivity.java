@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,16 +39,23 @@ public class SetupThreeActivity extends AppCompatActivity implements View.OnClic
         btn_select_number = (Button) findViewById(R.id.btn_select_number);
         et_phone_number = (EditText) findViewById(R.id.et_phone_number);
 
-        String number = SpUtils.getString(this, ConstantValue.SECURITY_NUMBER, "");
+        //获取联系人号码进行回显
+        String number = SpUtils.getString(this, ConstantValue.CONTACT_PHONE, "");
         if (!TextUtils.isEmpty(number)) {
             et_phone_number.setText(number);
         }
 
+        //为按钮设置点击事件
         btn_next.setOnClickListener(this);
         btn_previous.setOnClickListener(this);
         btn_select_number.setOnClickListener(this);
     }
 
+    /**
+     * 按钮点击事件
+     *
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -87,7 +93,7 @@ public class SetupThreeActivity extends AppCompatActivity implements View.OnClic
                         if (et_phone_number != null) {
                             et_phone_number.setText(number);
                             //存储安全联系人
-                            SpUtils.putString(this, ConstantValue.SECURITY_NUMBER, number);
+                            SpUtils.putString(this, ConstantValue.CONTACT_PHONE, number);
                         }
                     }
                 }
@@ -100,10 +106,10 @@ public class SetupThreeActivity extends AppCompatActivity implements View.OnClic
      */
     private void nextJump() {
         if (et_phone_number != null) {
+            //点击按钮以后，需要获取输入框中的联系人，再做下一页的操作
             String number = et_phone_number.getText().toString().trim();
             if (!TextUtils.isEmpty(number)) {
-                /*number = number.replaceAll("-", "");*/
-                SpUtils.putString(this, ConstantValue.SECURITY_NUMBER, number);
+                SpUtils.putString(this, ConstantValue.CONTACT_PHONE, number);
                 Intent intent = new Intent(getApplicationContext(), SetupFourActivity.class);
                 startActivity(intent);
                 finish();
