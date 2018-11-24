@@ -81,10 +81,14 @@ public class SetupThreeActivity extends AppCompatActivity implements View.OnClic
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode) {
             case CONTACT:
-                String number = data.getStringExtra("number");
-                if (number != null) {
-                    if (et_phone_number != null) {
-                        et_phone_number.setText(number);
+                if (data != null) {
+                    String number = data.getStringExtra("number");
+                    if (number != null) {
+                        if (et_phone_number != null) {
+                            et_phone_number.setText(number);
+                            //存储安全联系人
+                            SpUtils.putString(this, ConstantValue.SECURITY_NUMBER, number);
+                        }
                     }
                 }
                 break;
@@ -98,6 +102,7 @@ public class SetupThreeActivity extends AppCompatActivity implements View.OnClic
         if (et_phone_number != null) {
             String number = et_phone_number.getText().toString().trim();
             if (!TextUtils.isEmpty(number)) {
+                /*number = number.replaceAll("-", "");*/
                 SpUtils.putString(this, ConstantValue.SECURITY_NUMBER, number);
                 Intent intent = new Intent(getApplicationContext(), SetupFourActivity.class);
                 startActivity(intent);

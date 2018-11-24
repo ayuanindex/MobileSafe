@@ -10,16 +10,12 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.ayuan.mobilesafe.utils.ToastUtil;
-import com.ayuan.mobilesafe.vo.contact;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +36,7 @@ public class ContactListActivity extends AppCompatActivity {
                 case 1:
                     if (lv_contact != null) {
                         ContactAdapter contactAdapter = (ContactAdapter) msg.obj;
+                        //填充数据适配器
                         lv_contact.setAdapter(contactAdapter);
                     }
                     break;
@@ -103,6 +100,7 @@ public class ContactListActivity extends AppCompatActivity {
                     contactList.add(map);
                 }
                 query.close();
+                //使用消息机制对数据适配器进行设置（设置数据适配器也是更新UI的操作所以不能够再子线程里面进行操作）
                 Message message = Message.obtain();
                 message.obj = new ContactAdapter();
                 message.what = 1;
@@ -119,11 +117,13 @@ public class ContactListActivity extends AppCompatActivity {
         lv_contact.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //获取点中条目的索引只想集合中的对象
                 Map<String, String> contact = contactList.get(position);
-                Intent intent = new Intent(ContactListActivity.this, SetupThreeActivity.class);
-                String contactName = contact.get("name");
+                //获取当前条目指向集合中对应的电话号码
                 String contactNumber = contact.get("number");
-                intent.putExtra("name", contactName);
+                Intent intent = new Intent(ContactListActivity.this, SetupThreeActivity.class);
+                //将特殊字符过滤下来
+                contactNumber = contactNumber.replace("-", "").replace(" ", "").trim();
                 intent.putExtra("number", contactNumber);
                 setResult(0, intent);
                 finish();
@@ -141,8 +141,8 @@ public class ContactListActivity extends AppCompatActivity {
         }
 
         @Override
-        public Object getItem(int position) {
-            return position;
+        public Map<String, String> getItem(int position) {
+            return contactList.get(position);
         }
 
         @Override
@@ -154,11 +154,11 @@ public class ContactListActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             View view;
             if (convertView == null) {
-                view = View.inflate(ContactListActivity.this, R.layout.contact_item_view, null);
+                view = View.inflate(ContactListActivity.this, R.layout.listview_contact_item, null);
             } else {
                 view = convertView;
             }
-            Map<String, String> contact = contactList.get(position);
+            Map<String, String> contact = getItem(position);
             String contactName = contact.get("name");
             String contactNumber = contact.get("number");
             TextView tv_contact_name = (TextView) view.findViewById(R.id.tv_contact_name);
@@ -168,5 +168,4 @@ public class ContactListActivity extends AppCompatActivity {
             return view;
         }
     }
-
 }
