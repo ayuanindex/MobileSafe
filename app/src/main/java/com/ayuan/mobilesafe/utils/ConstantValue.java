@@ -18,4 +18,5 @@ public class ConstantValue {
      * SIM卡绑定序列号的key
      */
     public static final String SIM_NUMBER = "sim_number";
+    public static final String SECURITY_NUMBER = "security_number";
 }

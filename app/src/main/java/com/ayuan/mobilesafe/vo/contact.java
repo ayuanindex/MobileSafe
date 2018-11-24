@@ -3,15 +3,25 @@ package com.ayuan.mobilesafe.vo;
 import java.util.Objects;
 
 public class contact {
+    private String contactId;
     private String contactName;
     private String contactNumber;
 
     public contact() {
     }
 
-    public contact(String contactName, String contactNumber) {
+    public contact(String contactId, String contactName, String contactNumber) {
+        this.contactId = contactId;
         this.contactName = contactName;
         this.contactNumber = contactNumber;
+    }
+
+    public String getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(String contactId) {
+        this.contactId = contactId;
     }
 
     public String getContactName() {
@@ -33,7 +43,8 @@ public class contact {
     @Override
     public String toString() {
         return "contact{" +
-                "contactName='" + contactName + '\'' +
+                "contactId='" + contactId + '\'' +
+                ", contactName='" + contactName + '\'' +
                 ", contactNumber='" + contactNumber + '\'' +
                 '}';
     }
@@ -43,12 +54,15 @@ public class contact {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         contact contact = (contact) o;
-        return Objects.equals(contactName, contact.contactName) &&
+        return Objects.equals(contactId, contact.contactId) &&
+                Objects.equals(contactName, contact.contactName) &&
                 Objects.equals(contactNumber, contact.contactNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(contactName, contactNumber);
+
+        return Objects.hash(contactId, contactName, contactNumber);
     }
 }
+

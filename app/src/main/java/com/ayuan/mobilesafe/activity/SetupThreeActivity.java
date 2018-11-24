@@ -4,9 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.ayuan.mobilesafe.utils.ConstantValue;
+import com.ayuan.mobilesafe.utils.SpUtils;
+import com.ayuan.mobilesafe.utils.ToastUtil;
 
 /**
  * 导航界面3
@@ -14,6 +20,7 @@ import android.widget.EditText;
 public class SetupThreeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int CONTACT = 0;
+    private static final String TAG = "SetupThreeActivity";
     private Button btn_next;
     private Button btn_previous;
     private Button btn_select_number;
@@ -67,9 +74,14 @@ public class SetupThreeActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
+        switch (resultCode) {
             case CONTACT:
-                //这里取得联系人列表返回的联系人号码和姓名信息
+                String number = data.getStringExtra("number");
+                if (number != null) {
+                    if (et_phone_number != null) {
+                        et_phone_number.setText(number);
+                    }
+                }
                 break;
         }
     }
@@ -78,9 +90,18 @@ public class SetupThreeActivity extends AppCompatActivity implements View.OnClic
      * 跳转到下一个页面
      */
     private void nextJump() {
-        Intent intent = new Intent(getApplicationContext(), SetupFourActivity.class);
-        startActivity(intent);
-        finish();
+        if (et_phone_number != null) {
+            String number = et_phone_number.getText().toString().trim();
+            if (!TextUtils.isEmpty(number)) {
+                SpUtils.putString(this, ConstantValue.SECURITY_NUMBER, number);
+                Intent intent = new Intent(getApplicationContext(), SetupFourActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                SpUtils.remove(this, ConstantValue.SECURITY_NUMBER);
+                ToastUtil.showShort(this, "请选择联系人");
+            }
+        }
     }
 
     /**
