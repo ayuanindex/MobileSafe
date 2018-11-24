@@ -19,6 +19,7 @@ public class SetupOneActivity extends AppCompatActivity {
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //跳转到第二个导航界面
                 Intent intent = new Intent(SetupOneActivity.this, SetupTwoActivity.class);
                 startActivity(intent);
                 finish();

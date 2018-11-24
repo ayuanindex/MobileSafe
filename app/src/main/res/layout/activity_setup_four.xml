@@ -6,37 +6,14 @@
 
     <TextView
         style="@style/TitleStyle"
-        android:text="设置安全号码" />
+        android:text="设置完成" />
 
-    <TextView
+    <CheckBox
+        android:id="@+id/cb_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="SIM变更后:"
-        android:textColor="#000000"
-        android:textSize="18sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="报警短信会发送给安全号码"
-        android:textColor="#000000"
-        android:textSize="18sp" />
-
-    <EditText
-        android:id="@+id/et_phone_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="请输入安全号码"
-        android:singleLine="true" />
-
-    <Button
-        android:id="@+id/btn_select_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/selector_setupthree_bg"
-        android:text="选择联系人" />
+        android:text="您没有开启防盗保护" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -69,15 +46,16 @@
                 android:layout_height="wrap_content"
                 android:src="@android:drawable/presence_invisible" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/presence_online" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@android:drawable/presence_invisible" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/presence_online" />
         </LinearLayout>
 
         <Button
@@ -88,4 +66,5 @@
             android:id="@+id/btn_previous"
             style="@style/PreviousButtonStyle" />
     </RelativeLayout>
+
 </LinearLayout>

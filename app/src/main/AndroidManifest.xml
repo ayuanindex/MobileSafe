@@ -34,13 +34,19 @@
             android:launchMode="singleTask"></activity>
         <activity
             android:name=".SetupOneActivity"
-            android:launchMode="singleInstance"></activity>
+            android:launchMode="singleTask"></activity>
         <activity
             android:name=".SetupTwoActivity"
-            android:launchMode="singleInstance"></activity>
+            android:launchMode="singleTask"></activity>
         <activity
             android:name=".SetupThreeActivity"
-            android:launchMode="singleInstance"></activity>
+            android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".SetupFourActivity"
+            android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".ContactListActivity"
+            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

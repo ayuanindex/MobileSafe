@@ -20,8 +20,7 @@ public class SpUtils {
             sharedPreferences = context.getSharedPreferences("config", Context.MODE_PRIVATE);
         }
         SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putBoolean(key, value);
-        edit.commit();
+        edit.putBoolean(key, value).commit();
     }
 
     /**
@@ -51,8 +50,7 @@ public class SpUtils {
             sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
         }
         SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putString(key, value);
-        edit.commit();
+        edit.putString(key, value).commit();
     }
 
     /**
@@ -68,5 +66,19 @@ public class SpUtils {
             sharedPreferences = context.getSharedPreferences("config", Context.MODE_PRIVATE);
         }
         return sharedPreferences.getString(key, defValue);
+    }
+
+    /**
+     * 从sp中移除指定节点
+     *
+     * @param context 上下文
+     * @param node    需要删除的节点名称
+     */
+    public static void remove(Context context, String node) {
+        if (sharedPreferences == null) {
+            sharedPreferences = context.getSharedPreferences("config", Context.MODE_PRIVATE);
+        }
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.remove(node).commit();
     }
 }

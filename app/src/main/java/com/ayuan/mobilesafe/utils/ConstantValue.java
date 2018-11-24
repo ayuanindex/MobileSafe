@@ -14,4 +14,8 @@ public class ConstantValue {
      * 是否设置完成导航界面的key
      */
     public static final String SETUP_OVER = "setup_over";
+    /**
+     * SIM卡绑定序列号的key
+     */
+    public static final String SIM_NUMBER = "sim_number";
 }

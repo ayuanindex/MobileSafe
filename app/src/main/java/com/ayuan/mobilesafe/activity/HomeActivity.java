@@ -210,7 +210,7 @@ public class HomeActivity extends AppCompatActivity {
                     String encoder = MD5Utils.encoder(setPassword);
                     SpUtils.putString(HomeActivity.this, ConstantValue.MOBILE_SAFE_PASSWORD, encoder);
                     //进入应用手机防盗模块
-                    Intent intent = new Intent(getApplicationContext(), SetupOverActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), SetupOneActivity.class);
                     startActivity(intent);
                     //跳转到新的界面以后需要将AlertDialog销毁
                     alertDialog.dismiss();
