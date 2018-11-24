@@ -40,6 +40,11 @@ public class SetupThreeActivity extends AppCompatActivity implements View.OnClic
         btn_select_number = (Button) findViewById(R.id.btn_select_number);
         et_phone_number = (EditText) findViewById(R.id.et_phone_number);
 
+        String number = SpUtils.getString(this, ConstantValue.SECURITY_NUMBER, "");
+        if (!TextUtils.isEmpty(number)) {
+            et_phone_number.setText(number);
+        }
+
         btn_next.setOnClickListener(this);
         btn_previous.setOnClickListener(this);
         btn_select_number.setOnClickListener(this);
@@ -98,7 +103,6 @@ public class SetupThreeActivity extends AppCompatActivity implements View.OnClic
                 startActivity(intent);
                 finish();
             } else {
-                SpUtils.remove(this, ConstantValue.SECURITY_NUMBER);
                 ToastUtil.showShort(this, "请选择联系人");
             }
         }
