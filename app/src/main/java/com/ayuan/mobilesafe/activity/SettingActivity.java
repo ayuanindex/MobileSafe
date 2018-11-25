@@ -1,8 +1,11 @@
 package com.ayuan.mobilesafe.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.ayuan.mobilesafe.utils.ConstantValue;
@@ -13,6 +16,7 @@ import com.ayuan.mobilesafe.view.SettingItemView;
 public class SettingActivity extends AppCompatActivity {
 
 	private String TAG = "SettingActivity";
+	private GestureDetector gestureDetector;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -20,6 +24,7 @@ public class SettingActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_setting);
 
 		initUpdate();
+
 	}
 
 	/**
@@ -41,5 +46,27 @@ public class SettingActivity extends AppCompatActivity {
 				SpUtils.putBoolean(SettingActivity.this, ConstantValue.OPEN_UPDATE, !flag);
 			}
 		});
+
+		//滑动切换
+		gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+			@Override
+			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+				//e1 起始点
+				//e2 抬起点
+				if (e2.getX() - e1.getX() > 100) {
+					//上一页
+					startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+					finish();
+					overridePendingTransition(R.anim.next_in_anim, R.anim.next_out_anim);
+				}
+				return super.onFling(e1, e2, velocityX, velocityY);
+			}
+		});
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		gestureDetector.onTouchEvent(event);
+		return super.onTouchEvent(event);
 	}
 }
