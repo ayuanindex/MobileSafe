@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +27,7 @@ public class SetupThreeActivity extends AppCompatActivity implements View.OnClic
 	private Button btn_previous;
 	private Button btn_select_number;
 	private EditText et_phone_number;
+	private GestureDetector gestureDetector;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +53,24 @@ public class SetupThreeActivity extends AppCompatActivity implements View.OnClic
 		btn_next.setOnClickListener(this);
 		btn_previous.setOnClickListener(this);
 		btn_select_number.setOnClickListener(this);
+
+		//滑动切换
+		gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+			@Override
+			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+				//e1 起始点
+				//e2 抬起点
+				if (e1.getRawX() - e2.getRawX() > 100) {
+					//跳转到下一页
+					nextJump();
+				}
+				if (e2.getX() - e1.getX() > 100) {
+					//上一页
+					previousJump();
+				}
+				return super.onFling(e1, e2, velocityX, velocityY);
+			}
+		});
 	}
 
 	/**
@@ -132,4 +153,9 @@ public class SetupThreeActivity extends AppCompatActivity implements View.OnClic
 		finish();
 	}
 
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		gestureDetector.onTouchEvent(event);
+		return super.onTouchEvent(event);
+	}
 }
