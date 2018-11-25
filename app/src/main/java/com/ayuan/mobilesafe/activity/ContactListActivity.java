@@ -1,5 +1,6 @@
 package com.ayuan.mobilesafe.activity;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,12 +11,16 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.ayuan.mobilesafe.utils.ConstantValue;
+import com.ayuan.mobilesafe.utils.SpUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,6 +120,7 @@ public class ContactListActivity extends AppCompatActivity {
 	private void initUI() {
 		lv_contact = (ListView) findViewById(R.id.lv_contact);
 		lv_contact.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@SuppressLint("NewApi")
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				//获取点中条目的索引只想集合中的对象

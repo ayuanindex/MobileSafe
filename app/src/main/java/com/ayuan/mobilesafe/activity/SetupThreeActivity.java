@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -82,6 +83,7 @@ public class SetupThreeActivity extends AppCompatActivity implements View.OnClic
 		startActivityForResult(intent, CONTACT);
 	}
 
+	//此方法获取不到使用singleInstance开启的页面返回的数据
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);

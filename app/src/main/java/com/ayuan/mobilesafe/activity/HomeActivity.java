@@ -190,8 +190,8 @@ public class HomeActivity extends AppCompatActivity {
 		final AlertDialog alertDialog = builder.create();
 		//因为需要去自己定义对话框的展示样式，所以需要调用setView（）方法
 		final View inflate = View.inflate(this, R.layout.dialog_set_password, null);
-		//让对话框显示自己定义的view
-		alertDialog.setView(inflate);
+		//让对话框显示自己定义的view(兼容低版本的操作)
+		alertDialog.setView(inflate, 0, 0, 0, 0);
 		alertDialog.show();
 		Button btn_submit = (Button) inflate.findViewById(R.id.btn_submit);
 		Button btn_cancel = (Button) inflate.findViewById(R.id.btn_cancel);
