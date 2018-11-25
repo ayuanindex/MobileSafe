@@ -27,7 +27,6 @@ public class SetupOneActivity extends AppCompatActivity {
 				LinearLayout ll_one = (LinearLayout) findViewById(R.id.ll_one);
 				//开启平移动画
 				finish();
-				SystemClock.sleep(200);
 				overridePendingTransition(R.anim.next_in_anim, R.anim.next_out_anim);
 			}
 		});
