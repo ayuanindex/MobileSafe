@@ -106,6 +106,7 @@ public class SetupFourActivity extends AppCompatActivity implements View.OnClick
 			Intent intent = new Intent(getApplicationContext(), SetupOverActivity.class);
 			startActivity(intent);
 			SpUtils.putBoolean(this, ConstantValue.SETUP_OVER, true);
+			overridePendingTransition(R.anim.pre_in_anim, R.anim.pre_out_anim);
 			finish();
 		} else {
 			ToastUtil.showShort(this, "请开启防盗保护");

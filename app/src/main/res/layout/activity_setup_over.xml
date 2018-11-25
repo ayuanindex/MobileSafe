@@ -1,9 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#1cb6b6b6"
+	android:orientation="vertical">
 
-    <TextView
-        style="@style/TitleStyle"
-        android:text="功能列表" />
-</android.support.constraint.ConstraintLayout>
+	<TextView
+		style="@style/TitleStyle"
+		android:text="手机防盗" />
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingLeft="5dp"
+		android:paddingRight="5dp">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:text="安全号码"
+			android:textColor="#000000"
+			android:textSize="20sp" />
+
+		<TextView
+			android:id="@+id/tv_safe_number"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:text="号码"
+			android:textColor="#000000"
+			android:textSize="20sp" />
+
+		<ImageView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/tv_safe_number"
+			android:layout_marginTop="30dp"
+			android:background="@mipmap/listview_divider" />
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingLeft="5dp"
+		android:paddingRight="5dp">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:text="防盗保护是否开启"
+			android:textColor="#000000"
+			android:textSize="20sp" />
+
+		<ImageView
+			android:id="@+id/iv_lock"
+			android:layout_width="25dp"
+			android:layout_height="25dp"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:src="@mipmap/unlock" />
+
+		<ImageView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/iv_lock"
+			android:layout_marginTop="30dp"
+			android:background="@mipmap/listview_divider" />
+	</RelativeLayout>
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_centerInParent="true"
+		android:layout_centerVertical="true"
+		android:background="@drawable/test"
+		android:paddingLeft="5dp"
+		android:paddingRight="5dp"
+		android:text="重新进入设置向导"
+		android:textColor="#000000"
+		android:textSize="20sp" />
+
+</LinearLayout>

@@ -13,6 +13,14 @@ public class SetupOverActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		initUI();
+	}
+
+	/**
+	 * 初始化UI
+	 */
+	private void initUI() {
 		boolean setup_over = SpUtils.getBoolean(this, ConstantValue.SETUP_OVER, false);
 		if (setup_over) {
 			//密码输入验证成功，并且四个导航界面设置完成------》才能跳转到设置完成的功能列表界面

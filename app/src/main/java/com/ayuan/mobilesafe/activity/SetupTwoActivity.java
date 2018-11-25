@@ -112,9 +112,16 @@ public class SetupTwoActivity extends AppCompatActivity {
 				//e2 抬起点
 				if (e1.getRawX() - e2.getRawX() > 100) {
 					//跳转到下一页、
-					startActivity(new Intent(getApplicationContext(), SetupThreeActivity.class));
-					finish();
-					overridePendingTransition(R.anim.next_in_anim, R.anim.next_out_anim);
+					String sim_number = SpUtils.getString(SetupTwoActivity.this, ConstantValue.SIM_NUMBER, "");
+					if (!TextUtils.isEmpty(sim_number)) {
+						//跳转到第三个导航界面
+						Intent intent = new Intent(SetupTwoActivity.this, SetupThreeActivity.class);
+						startActivity(intent);
+						overridePendingTransition(R.anim.next_in_anim, R.anim.next_out_anim);
+						finish();
+					} else {
+						ToastUtil.showShort(SetupTwoActivity.this, "请绑定SIM卡");
+					}
 				}
 				if (e2.getX() - e1.getX() > 100) {
 					//上一页
