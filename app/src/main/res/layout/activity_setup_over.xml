@@ -76,7 +76,6 @@
 		android:layout_height="wrap_content"
 		android:layout_centerInParent="true"
 		android:layout_centerVertical="true"
-		android:background="@drawable/test"
 		android:paddingLeft="5dp"
 		android:paddingRight="5dp"
 		android:text="重新进入设置向导"
