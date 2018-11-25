@@ -63,7 +63,6 @@
 			android:text="远程锁屏"
 			android:textColor="#000000"
 			android:textSize="19sp" />
-
 	</LinearLayout>
 
 

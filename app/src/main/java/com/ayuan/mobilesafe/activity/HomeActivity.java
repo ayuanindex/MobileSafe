@@ -165,9 +165,16 @@ public class HomeActivity extends AppCompatActivity {
 					return;
 				} else {
 					//密码输入正确
-					Intent intent = new Intent(getApplicationContext(), SetupOverActivity.class);
-					startActivity(intent);
-					alertDialog.dismiss();
+					boolean setup_over = SpUtils.getBoolean(HomeActivity.this, ConstantValue.SETUP_OVER, false);
+					if (setup_over) {
+						Intent intent = new Intent(getApplicationContext(), SetupOverActivity.class);
+						startActivity(intent);
+						alertDialog.dismiss();
+					} else {
+						Intent intent = new Intent(getApplicationContext(), SetupOneActivity.class);
+						startActivity(intent);
+						alertDialog.dismiss();
+					}
 				}
 			}
 		});

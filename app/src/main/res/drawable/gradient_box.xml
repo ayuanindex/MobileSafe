@@ -9,11 +9,5 @@
 		android:endColor="#838383"
 		android:startColor="#838383" />
 
-	<padding
-		android:bottom="7dp"
-		android:left="7dp"
-		android:right="7dp"
-		android:top="7dp" />
-
 	<corners android:radius="8dp" />
 </shape>
