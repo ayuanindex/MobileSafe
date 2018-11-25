@@ -112,6 +112,7 @@ public class SetupThreeActivity extends AppCompatActivity implements View.OnClic
                 SpUtils.putString(this, ConstantValue.CONTACT_PHONE, number);
                 Intent intent = new Intent(getApplicationContext(), SetupFourActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.next_in_anim, R.anim.next_out_anim);
                 finish();
             } else {
                 ToastUtil.showShort(this, "请选择联系人");
@@ -125,6 +126,7 @@ public class SetupThreeActivity extends AppCompatActivity implements View.OnClic
     private void previousJump() {
         Intent intent = new Intent(getApplicationContext(), SetupTwoActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.pre_in_anim, R.anim.pre_out_anim);
         finish();
     }
 

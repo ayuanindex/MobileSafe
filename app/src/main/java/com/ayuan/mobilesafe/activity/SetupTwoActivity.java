@@ -10,7 +10,6 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.ayuan.mobilesafe.utils.ConstantValue;
 import com.ayuan.mobilesafe.utils.SpUtils;
@@ -40,6 +39,7 @@ public class SetupTwoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(SetupTwoActivity.this, SetupOneActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.pre_in_anim, R.anim.pre_out_anim);
                 finish();
             }
         });
@@ -53,6 +53,7 @@ public class SetupTwoActivity extends AppCompatActivity {
                     //跳转到第三个导航界面
                     Intent intent = new Intent(SetupTwoActivity.this, SetupThreeActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.next_in_anim, R.anim.next_out_anim);
                     finish();
                 } else {
                     ToastUtil.showShort(SetupTwoActivity.this, "请绑定SIM卡");

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.ayuan.mobilesafe.utils.ConstantValue;
 import com.ayuan.mobilesafe.utils.SpUtils;
@@ -80,7 +81,7 @@ public class SetupFourActivity extends AppCompatActivity implements View.OnClick
      * 跳转到下一个页面
      */
     private void nextJump() {
-        boolean checked = cb_box.isChecked();
+        boolean checked = SpUtils.getBoolean(this, ConstantValue.OPEN_SECURITY, false);
         if (checked) {
             Intent intent = new Intent(getApplicationContext(), SetupOverActivity.class);
             startActivity(intent);
@@ -97,6 +98,7 @@ public class SetupFourActivity extends AppCompatActivity implements View.OnClick
     private void previousJump() {
         Intent intent = new Intent(getApplicationContext(), SetupThreeActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.pre_in_anim, R.anim.pre_out_anim);
         finish();
     }
 

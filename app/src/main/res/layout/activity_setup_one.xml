@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_one"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -12,7 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="您的手机防盗卫士:"
+        android:background="@drawable/left"
+        android:text="您的手机防盗卫士"
         android:textColor="#000000"
         android:textSize="18sp" />
 
@@ -20,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:background="@drawable/left"
         android:drawableLeft="@android:drawable/btn_star_big_on"
         android:gravity="center"
         android:text="SIM卡变更报警"
@@ -30,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:background="@drawable/left"
         android:drawableLeft="@android:drawable/btn_star_big_on"
         android:gravity="center"
         android:text="GPS追踪"
@@ -37,9 +41,11 @@
         android:textSize="18sp" />
 
     <TextView
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:background="@drawable/left"
         android:drawableLeft="@android:drawable/btn_star_big_on"
         android:gravity="center"
         android:text="远程数据销毁"
@@ -50,6 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:background="@drawable/left"
         android:drawableLeft="@android:drawable/btn_star_big_on"
         android:gravity="center"
         android:text="远程锁屏"
