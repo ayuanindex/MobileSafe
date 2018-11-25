@@ -4,9 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.TextView;
 
 import com.ayuan.mobilesafe.utils.ConstantValue;
 import com.ayuan.mobilesafe.utils.SpUtils;
+import com.ayuan.mobilesafe.utils.ToastUtil;
 
 public class SetupOverActivity extends AppCompatActivity {
 
@@ -32,5 +37,13 @@ public class SetupOverActivity extends AppCompatActivity {
 			//开启了一个新的界面以后，关闭功能列表界面
 			finish();
 		}
+
+		TextView viewById = (TextView) findViewById(R.id.tv_reselt);
+		viewById.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ToastUtil.showShort(SetupOverActivity.this, "你好我是你爸爸");
+			}
+		});
 	}
 }

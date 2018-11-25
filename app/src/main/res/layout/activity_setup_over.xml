@@ -72,13 +72,26 @@
 	</RelativeLayout>
 
 	<TextView
+		android:id="@+id/tv_reselt"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_centerInParent="true"
 		android:layout_centerVertical="true"
+		android:background="@drawable/selector_mobilesafe_reset_setup_bg"
 		android:paddingLeft="5dp"
 		android:paddingRight="5dp"
 		android:text="重新进入设置向导"
+		android:textColor="#000000"
+		android:textSize="20sp" />
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_centerInParent="true"
+		android:layout_centerVertical="true"
+		android:background="#a6a6a6"
+		android:padding="4dp"
+		android:text="功能简介"
 		android:textColor="#000000"
 		android:textSize="20sp" />
 
