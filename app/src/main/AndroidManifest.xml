@@ -2,11 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.ayuan.mobilesafe.activity">
 
+	<!--连接网络的权限-->
 	<uses-permission android:name="android.permission.INTERNET" />
+	<!--允许写入外部存储设备的权限-->
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<!--允许读取外部存储设备的权限-->
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<!--允许读取联系人的权限-->
 	<uses-permission android:name="android.permission.READ_CONTACTS" />
+	<!--允许查看电话状态的权限-->
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<!--监听开关机的权限-->
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<!--发送短信的权限-->
+	<uses-permission android:name="android.permission.SEND_SMS" />
 
 	<application
 		android:allowBackup="true"
@@ -22,6 +31,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		<!--界面-->
 		<activity
 			android:name=".HomeActivity"
 			android:launchMode="singleTask" />
@@ -44,6 +54,13 @@
 			android:name=".SetupFourActivity"
 			android:launchMode="singleTask"></activity>
 		<activity android:name=".ContactListActivity"></activity>
+		<!--广播接收者-->
+		<receiver android:name="com.ayuan.mobilesafe.receiver.BootReceiver">
+			<intent-filter>
+				<!--开机发送的广播 -->
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver>
 	</application>
 
 </manifest>
