@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	package="com.ayuan.mobilesafe.activity">
 
 	<!--连接网络的权限-->
@@ -16,6 +17,10 @@
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<!--发送短信的权限-->
 	<uses-permission android:name="android.permission.SEND_SMS" />
+	<!--读取短信的权限-->
+	<uses-permission android:name="android.permission.READ_SMS" />
+	<!--接收短信的权限-->
+	<uses-permission android:name="android.permission.RECEIVE_SMS" />
 
 	<application
 		android:allowBackup="true"
@@ -59,6 +64,12 @@
 			<intent-filter>
 				<!--开机发送的广播 -->
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver>
+		<receiver android:name="com.ayuan.mobilesafe.receiver.SmsReceiver">
+			<intent-filter>
+				<!--为了去关联系统短信的广播过滤条件，先将编译版本改为4.1.2-->
+				<action android:name="android.provider.Telephony.SMS_RECEIVED" />
 			</intent-filter>
 		</receiver>
 	</application>

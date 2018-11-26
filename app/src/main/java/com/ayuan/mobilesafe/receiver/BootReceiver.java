@@ -25,7 +25,7 @@ public class BootReceiver extends BroadcastReceiver {
 		TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
 		@SuppressLint("MissingPermission") String simSerialNumber = telephonyManager.getSimSerialNumber();
 		//3.将两个序列卡号进行比对
-		if (!spSimSerialNumber.equals(simSerialNumber + "123")) {
+		if (!spSimSerialNumber.equals(simSerialNumber)) {
 			//4.如果两者不相同名则发送短信给安全号码
 			//获取发送对象的号码
 			String contactPhone = SpUtils.getString(context, ConstantValue.CONTACT_PHONE, "");
