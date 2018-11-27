@@ -21,6 +21,14 @@
 	<uses-permission android:name="android.permission.READ_SMS" />
 	<!--接收短信的权限-->
 	<uses-permission android:name="android.permission.RECEIVE_SMS" />
+	<!--获取准确GPS坐标的权限-->
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<!--允许获取模拟器坐标的权限-->
+	<uses-permission
+		android:name="android.permission.ACCESS_MOCK_LOCATION"
+		tools:ignore="MockLocation,ProtectedPermissions" />
+	<!--允许获取粗略坐标的权限(网络定位时使用)-->
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 	<application
 		android:allowBackup="true"
@@ -59,7 +67,7 @@
 			android:name=".SetupFourActivity"
 			android:launchMode="singleTask"></activity>
 		<activity android:name=".ContactListActivity"></activity>
-		<!--广播接收者-->
+		<!--广播接收者===========================================================================-->
 		<receiver android:name="com.ayuan.mobilesafe.receiver.BootReceiver">
 			<intent-filter>
 				<!--开机发送的广播 -->
@@ -72,6 +80,8 @@
 				<action android:name="android.provider.Telephony.SMS_RECEIVED" />
 			</intent-filter>
 		</receiver>
+		<!--服务=================================================================================-->
+		<service android:name="com.ayuan.mobilesafe.service.LocationService" />
 	</application>
 
 </manifest>

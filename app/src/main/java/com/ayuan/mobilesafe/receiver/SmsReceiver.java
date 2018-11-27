@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.telephony.SmsMessage;
 
 import com.ayuan.mobilesafe.activity.R;
+import com.ayuan.mobilesafe.service.LocationService;
 import com.ayuan.mobilesafe.utils.ConstantValue;
 import com.ayuan.mobilesafe.utils.SpUtils;
 
@@ -33,6 +34,10 @@ public class SmsReceiver extends BroadcastReceiver {
 					mediaPlayer.setLooping(true);
 					//11.开始播放音乐
 					mediaPlayer.start();
+				} else if (messageBody.contains("#*location*#")) {
+					//12.开启获取位置的服务
+					Intent service = new Intent(context, LocationService.class);
+					context.startService(service);
 				}
 			}
 		}
