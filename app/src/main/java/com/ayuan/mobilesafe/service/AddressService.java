@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ayuan.mobilesafe.activity.R;
+import com.ayuan.mobilesafe.engine.AddressDao;
 
 import org.w3c.dom.Text;
 
@@ -101,12 +102,13 @@ public class AddressService extends Service {
 		params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON/*让屏幕开启的时候显示Toast*/
 				| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;/*不能获取焦点*/
 		//指定Toast的位置
-		params.gravity = Gravity.LEFT + Gravity.TOP;//(指定显示在左上角)
+		params.gravity = Gravity.LEFT;//(指定显示在左边)
 		//Toast显示效果(Toast的布局文件),xml----->view（Toast），将Toast挂载到windowManager窗体上
 		mToastInflate = View.inflate(getApplicationContext(), R.layout.toast_view, null);
 		//在窗体上挂载一个View(需要添加权限)
 		mWindowManager.addView(mToastInflate, params);
 		TextView tv_toast = (TextView) mToastInflate.findViewById(R.id.tv_toast);
-		tv_toast.setText(phoneNumber);
+		String address = AddressDao.getAddress(phoneNumber);
+		tv_toast.setText(address);
 	}
 }
