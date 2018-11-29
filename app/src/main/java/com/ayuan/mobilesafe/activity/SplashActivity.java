@@ -134,9 +134,9 @@ public class SplashActivity extends AppCompatActivity {
 		InputStream open = null;
 		try {
 			//在files文件夹下创建同名数据库文件
-			File files = getFilesDir();
-			File dbFile = new File(files, dbName);
-			if (dbFile.exists()) {
+			File files = getFilesDir();//获取files文件夹的路径
+			File dbFile = new File(files, dbName);//在files指定的路径下创建dbName指定的数据库文件
+			if (dbFile.exists()) {//判断数据库是否已经读取到系统中
 				return;
 			}
 			//用输入流读取第三方资产目录下的文件
