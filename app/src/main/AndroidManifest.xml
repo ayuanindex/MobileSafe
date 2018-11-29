@@ -101,6 +101,7 @@
 		</receiver><!--设备管理器-->
 		<!--服务=================================================================================-->
 		<service android:name="com.ayuan.mobilesafe.service.LocationService" /><!--获取手机位置的服务-->
+		<service android:name="com.ayuan.mobilesafe.service.AddressService" /><!--显示号码归属地的服务-->
 	</application>
 
 </manifest>
