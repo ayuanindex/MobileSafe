@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+	android:shape="rectangle">
+	<!--
+		android:angle="90"修改颜色渐变的角度
+	-->
+	<gradient
+		android:angle="45"
+		android:endColor="#c2c2c2"
+		android:startColor="#c2c2c2" />
+
+	<corners android:radius="10dp" />
+</shape>

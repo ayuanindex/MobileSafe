@@ -91,6 +91,7 @@ public class HomeActivity extends AppCompatActivity {
 							break;
 						case 7:
 							//高级工具
+							advancedTool();
 							break;
 						case 8:
 							//设置中心
@@ -100,6 +101,14 @@ public class HomeActivity extends AppCompatActivity {
 				}
 			});
 		}
+	}
+
+	/**
+	 * 高级工具列表界面的跳转
+	 */
+	private void advancedTool() {
+		Intent intent = new Intent(this, AToosActivity.class);
+		startActivity(intent);
 	}
 
 	/**
@@ -139,29 +148,24 @@ public class HomeActivity extends AppCompatActivity {
 				//从文件中获取密码
 				String repassword = SpUtils.getString(HomeActivity.this, ConstantValue.MOBILE_SAFE_PASSWORD, "");
 				//将从对话框中获取的密码进行加密在进行比对
-				String encoder = MD5Utils.encoder(set_password);
-				if (TextUtils.isEmpty(encoder)) {
+				if (TextUtils.isEmpty(set_password)) {
 					//为输入框设置提示内容
 					et_set_password.setHint("请输入密码");
 					//将提示内容设置为红色
 					et_set_password.setHintTextColor(Color.RED);
 					//为输入框设置动效（左右晃动）
-					Animation translateAnimation = new TranslateAnimation(0, 10, 0, 0);
-					translateAnimation.setInterpolator(new CycleInterpolator(5));
-					translateAnimation.setDuration(200);
-					et_set_password.startAnimation(translateAnimation);
+					anim(et_set_password);
 					return;
-				} else if (!encoder.equals(repassword)) {
+				}
+				String encoder = MD5Utils.encoder(set_password);
+				if (!encoder.equals(repassword)) {
 					//将输入框置为空值
 					et_set_password.setText("");
 					//为输入框设置提示内容
 					et_set_password.setHint("密码错误");
 					et_set_password.setHintTextColor(Color.RED);
 					//为输入框设置动效（左右晃动）
-					Animation translateAnimation = new TranslateAnimation(0, 10, 0, 0);
-					translateAnimation.setInterpolator(new CycleInterpolator(5));
-					translateAnimation.setDuration(200);
-					et_set_password.startAnimation(translateAnimation);
+					anim(et_set_password);
 					return;
 				} else {
 					//密码输入正确
@@ -186,6 +190,13 @@ public class HomeActivity extends AppCompatActivity {
 				alertDialog.dismiss();
 			}
 		});
+	}
+
+	private void anim(View view) {
+		Animation translateAnimation = new TranslateAnimation(0, 10, 0, 0);
+		translateAnimation.setInterpolator(new CycleInterpolator(5));
+		translateAnimation.setDuration(200);
+		view.startAnimation(translateAnimation);
 	}
 
 	/**
@@ -226,11 +237,9 @@ public class HomeActivity extends AppCompatActivity {
 					et_confirm_password.setHint("确认密码");
 					et_confirm_password.setHintTextColor(Color.RED);
 					et_set_password.setHintTextColor(Color.RED);
-					Animation translateAnimation = new TranslateAnimation(0, 10, 0, 0);
-					translateAnimation.setInterpolator(new CycleInterpolator(5));
-					translateAnimation.setDuration(200);
-					et_confirm_password.startAnimation(translateAnimation);
-					et_set_password.startAnimation(translateAnimation);
+					//设置动画
+					anim((View) et_confirm_password);
+					anim((View) et_set_password);
 					return;
 				} else {
 					//设置新提示
@@ -238,10 +247,7 @@ public class HomeActivity extends AppCompatActivity {
 					//将确认密码输入设置为空值
 					et_confirm_password.setText("");
 					et_confirm_password.setHintTextColor(Color.RED);
-					Animation translateAnimation = new TranslateAnimation(0, 10, 0, 0);
-					translateAnimation.setInterpolator(new CycleInterpolator(5));
-					translateAnimation.setDuration(200);
-					et_confirm_password.startAnimation(translateAnimation);
+					anim((View) et_confirm_password);
 					return;
 				}
 			}

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -101,6 +103,7 @@ public class SplashActivity extends AppCompatActivity {
 	private String mDownloadUrl;
 	private RelativeLayout rl_root;
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -109,6 +112,65 @@ public class SplashActivity extends AppCompatActivity {
 		initUI();
 		//初始化数据
 		initData();
+		//初始化数据库
+		initDatabase();
+	}
+
+	/**
+	 * 初始化数据库
+	 */
+	private void initDatabase() {
+		//1.归属地数据库拷贝过程
+		initAddressDB("address.db");
+	}
+
+	/**
+	 * 拷贝数据库至files文件夹
+	 *
+	 * @param dbName 需要拷贝的数据库名称
+	 */
+	private void initAddressDB(String dbName) {
+		FileOutputStream fileOutputStream = null;
+		InputStream open = null;
+		try {
+			//在files文件夹下创建同名数据库文件
+			File files = getFilesDir();
+			File dbFile = new File(files, dbName);
+			if (dbFile.exists()) {
+				return;
+			}
+			//用输入流读取第三方资产目录下的文件
+			open = getAssets().open(dbName);
+			//将读取的内容写入到指定文件夹的文件中去
+			fileOutputStream = new FileOutputStream(dbFile);
+			//每次的读取内容大小
+			byte[] bytes = new byte[1024];
+			int len = -1;
+			while ((len = open.read(bytes)) != -1) {
+				fileOutputStream.write(bytes, 0, len);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.i(TAG, "IO出现异常");
+		} finally {
+			if (open != null) {
+				try {
+					open.close();
+				} catch (IOException e) {
+					Log.i(TAG, "open关闭异常");
+					e.printStackTrace();
+				}
+			}
+
+			if (fileOutputStream != null) {
+				try {
+					fileOutputStream.close();
+				} catch (IOException e) {
+					Log.i(TAG, "fileOutStream关闭异常");
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	/**

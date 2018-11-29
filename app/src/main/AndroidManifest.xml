@@ -29,7 +29,6 @@
 		tools:ignore="MockLocation,ProtectedPermissions" />
 	<!--允许获取粗略坐标的权限(网络定位时使用)-->
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
 	<application
 		android:allowBackup="true"
 		android:icon="@mipmap/ic_launcher"
@@ -47,39 +46,45 @@
 		<!--界面-->
 		<activity
 			android:name=".HomeActivity"
-			android:launchMode="singleTask" />
+			android:launchMode="singleTask" /><!--主页-->
 		<activity
 			android:name=".SettingActivity"
-			android:launchMode="singleTask" />
+			android:launchMode="singleTask" /><!--设置列表界面-->
 		<activity
 			android:name=".SetupOverActivity"
-			android:launchMode="singleTask"></activity>
+			android:launchMode="singleTask"></activity><!--安全模块初始化完成界面-->
 		<activity
 			android:name=".SetupOneActivity"
-			android:launchMode="singleTask"></activity>
+			android:launchMode="singleTask"></activity><!--第一个导航界面-->
 		<activity
 			android:name=".SetupTwoActivity"
-			android:launchMode="singleTask"></activity>
+			android:launchMode="singleTask"></activity><!--第二个导航界面-->
 		<activity
 			android:name=".SetupThreeActivity"
-			android:launchMode="singleTask"></activity>
+			android:launchMode="singleTask"></activity><!--第三个导航界面-->
 		<activity
 			android:name=".SetupFourActivity"
-			android:launchMode="singleTask"></activity>
-		<activity android:name=".ContactListActivity"></activity>
+			android:launchMode="singleTask"></activity><!--第四个导航界面-->
+		<activity android:name=".ContactListActivity"></activity><!--联系人列表界面-->
+		<activity
+			android:name=".AToosActivity"
+			android:launchMode="singleTask"></activity><!--高级工具页面-->
+		<activity
+			android:name=".QueryAddressActivity"
+			android:launchMode="singleTask"></activity><!--号码归属地查询界面-->
 		<!--广播接收者===========================================================================-->
 		<receiver android:name="com.ayuan.mobilesafe.receiver.BootReceiver">
 			<intent-filter>
 				<!--开机发送的广播 -->
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>
-		</receiver>
+		</receiver><!--开机启动的广播-->
 		<receiver android:name="com.ayuan.mobilesafe.receiver.SmsReceiver">
 			<intent-filter>
 				<!--为了去关联系统短信的广播过滤条件，先将编译版本改为4.1.2-->
 				<action android:name="android.provider.Telephony.SMS_RECEIVED" />
 			</intent-filter>
-		</receiver>
+		</receiver><!--收到短信的广播-->
 		<receiver
 			android:name="com.ayuan.mobilesafe.receiver.DeviceAdmin"
 			android:description="@string/sample_device_admin_description"
@@ -91,9 +96,9 @@
 			<intent-filter>
 				<action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
 			</intent-filter>
-		</receiver>
+		</receiver><!--设备管理器-->
 		<!--服务=================================================================================-->
-		<service android:name="com.ayuan.mobilesafe.service.LocationService" />
+		<service android:name="com.ayuan.mobilesafe.service.LocationService" /><!--获取手机位置的服务-->
 	</application>
 
 </manifest>

@@ -56,6 +56,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
 				//锁屏并设置密码
 				if (messageBody.contains("#*lockscreen*#")) {
+					//需要实现判断设备管理器是否激活
 					if (devicePolicyManager.isAdminActive(componentName)) {
 						//如果设备管理器开启的话就可以执行锁屏
 						devicePolicyManager.lockNow();
