@@ -9,10 +9,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.ayuan.mobilesafe.engine.AddressDao;
 
 /**
- * 高级工具
+ * 高级工具------>归属地查询
  *
  * @author ayuan
  */

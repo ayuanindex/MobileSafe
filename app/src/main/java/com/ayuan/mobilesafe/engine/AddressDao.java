@@ -30,7 +30,7 @@ public class AddressDao {
 			//3.执行数据库的查询操作
 			Cursor data1 = sqLiteDatabase.query("data1", new String[]{"outkey"}, "id=?", new String[]{phoneNumber}, null, null, null);
 			//4.查到即可
-			if (data1.getCount() >= 1 && data1.moveToNext()) {
+			if (data1.getCount() >= 1) {
 				String outkey = data1.getString(0);
 				//5.通过data1返回的结果，作为外键查询data2表
 				Cursor data2 = sqLiteDatabase.query("data2", new String[]{"location"}, "id=?", new String[]{outkey}, null, null, null);
