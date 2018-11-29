@@ -3,18 +3,31 @@ package com.ayuan.mobilesafe.service;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ayuan.mobilesafe.activity.R;
+
+import org.w3c.dom.Text;
 
 public class AddressService extends Service {
 
 	private String TAG = "AddressService";
 	private TelephonyManager mTelephonyManager;
 	private MyPhoneStateListener myPhoneStateListener;
+
+	private final WindowManager.LayoutParams mParams = new WindowManager.LayoutParams();
+	private View mToastInflate;
+	private WindowManager mWindowManager;
 
 	@Nullable
 	@Override
@@ -31,6 +44,8 @@ public class AddressService extends Service {
 		myPhoneStateListener = new MyPhoneStateListener();
 		//2.监听电话状态
 		mTelephonyManager.listen(myPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+		//获取窗口管理者对象
+		mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 	}
 
 	@Override
@@ -50,8 +65,12 @@ public class AddressService extends Service {
 			super.onCallStateChanged(state, phoneNumber);
 			switch (state) {
 				case TelephonyManager.CALL_STATE_IDLE:
-					//空闲状态，没有任何活动
+					//空闲状态，没有任何活动(移除Toast)
 					Log.i(TAG, "现在是空闲状状态");
+					//挂断电话的时候窗体需要去移除Toast
+					if (mToastInflate != null && mWindowManager != null) {
+						mWindowManager.removeView(mToastInflate);
+					}
 					break;
 				case TelephonyManager.CALL_STATE_OFFHOOK:
 					//摘机状态（接听电话）
@@ -66,7 +85,28 @@ public class AddressService extends Service {
 		}
 	}
 
+	/**
+	 * 弹出Toast的方法
+	 *
+	 * @param phoneNumber Toast上需要显示的内容
+	 */
 	private void showToast(String phoneNumber) {
-		Toast.makeText(this, phoneNumber, Toast.LENGTH_SHORT).show();
+		final WindowManager.LayoutParams params = mParams;
+		params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+		params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+		params.format = PixelFormat.TRANSLUCENT;
+		//在响铃的时候显示,和电话类型一致
+		params.type = WindowManager.LayoutParams.TYPE_PHONE;
+		params.setTitle("");
+		params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON/*让屏幕开启的时候显示Toast*/
+				| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;/*不能获取焦点*/
+		//指定Toast的位置
+		params.gravity = Gravity.LEFT + Gravity.TOP;//(指定显示在左上角)
+		//Toast显示效果(Toast的布局文件),xml----->view（Toast），将Toast挂载到windowManager窗体上
+		mToastInflate = View.inflate(getApplicationContext(), R.layout.toast_view, null);
+		//在窗体上挂载一个View(需要添加权限)
+		mWindowManager.addView(mToastInflate, params);
+		TextView tv_toast = (TextView) mToastInflate.findViewById(R.id.tv_toast);
+		tv_toast.setText(phoneNumber);
 	}
 }

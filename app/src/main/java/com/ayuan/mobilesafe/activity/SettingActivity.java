@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.ayuan.mobilesafe.service.AddressService;
 import com.ayuan.mobilesafe.utils.ConstantValue;
+import com.ayuan.mobilesafe.utils.ServiceUtils;
 import com.ayuan.mobilesafe.utils.SpUtils;
 import com.ayuan.mobilesafe.view.SettingItemView;
 
@@ -76,6 +77,8 @@ public class SettingActivity extends AppCompatActivity {
 	 */
 	private void initAddress() {
 		final SettingItemView siv_address = (SettingItemView) findViewById(R.id.siv_address);
+		boolean addressService = ServiceUtils.isRunnning(this, "com.ayuan.mobilesafe.service.AddressService");
+		siv_address.setCheck(addressService);
 		//点击过程中状态(是否开启电话号码归属地)的切换
 		siv_address.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -89,7 +92,6 @@ public class SettingActivity extends AppCompatActivity {
 					//关闭服务,不需要显示土司
 					stopService(new Intent(SettingActivity.this, AddressService.class));
 				}
-				//SpUtils.putBoolean(SettingActivity.this, ConstantValue.open_);
 			}
 		});
 	}
