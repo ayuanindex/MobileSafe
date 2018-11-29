@@ -1,11 +1,16 @@
 package com.ayuan.mobilesafe.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -124,17 +129,38 @@ public class QueryAddressActivity extends AppCompatActivity {
 
 		/*清空输入框的按钮*/
 		btn_clear.setOnClickListener(new View.OnClickListener() {
+			@RequiresApi(api = Build.VERSION_CODES.O)
 			@SuppressLint("ResourceAsColor")
 			@Override
 			public void onClick(View v) {
 				/*左右晃动的效果*/
 				anim((View) et_phone);
+				/*手机震动的方法*/
+				phoneVibration();
 				et_phone.setHint("请输入需要查询的号码");
 				et_phone.setHintTextColor(R.color.hintColor);
 				et_phone.setText("");
 				tv_attribution.setText("");
 			}
 		});
+	}
+
+	private void phoneVibration() {
+		/*手机震动vibrator:抖动*/
+		Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		//判断设备是否有震动的硬件
+		if (vibrator.hasVibrator()) {
+			/*震动时长*/
+			vibrator.vibrate(100);
+			/*规律震动(震动规则)*/
+			//repeat:反复震动的次数
+			vibrator.vibrate(new long[]{2000, 5000, 2000, 5000}, 3);
+
+			/*if (vibrator.hasAmplitudeControl()) {//判断振动器是否可以控制震动的幅度(波形)
+				VibrationEffect waveform = VibrationEffect.createWaveform(new long[]{10, 100, 1000}, -1);
+				vibrator.vibrate(waveform);
+			}*/
+		}
 	}
 
 	/**

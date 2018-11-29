@@ -5,6 +5,8 @@
 
 	<!--连接网络的权限-->
 	<uses-permission android:name="android.permission.INTERNET" />
+	<!--震动权限-->
+	<uses-permission android:name="android.permission.VIBRATE" />
 	<!--允许写入外部存储设备的权限-->
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<!--允许读取外部存储设备的权限-->
@@ -31,9 +33,9 @@
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<application
 		android:allowBackup="true"
-		android:icon="@mipmap/ic_launcher"
+		android:icon="@mipmap/mobilesafe"
 		android:label="@string/app_name"
-		android:roundIcon="@mipmap/ic_launcher_round"
+		android:roundIcon="@mipmap/mobilesafe"
 		android:supportsRtl="true"
 		android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 		<activity android:name=".SplashActivity">
