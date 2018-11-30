@@ -32,7 +32,9 @@ public class SettingActivity extends AppCompatActivity {
 		initAddress();
 	}
 
-
+	/**
+	 * 初始化UI
+	 */
 	private void initUI() {
 		//滑动切换
 		gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
@@ -52,7 +54,7 @@ public class SettingActivity extends AppCompatActivity {
 	}
 
 	/**
-	 * 初始化UI
+	 * 更新的开关
 	 */
 	private void initUpdate() {
 		final SettingItemView siv_update = (SettingItemView) findViewById(R.id.siv_update);

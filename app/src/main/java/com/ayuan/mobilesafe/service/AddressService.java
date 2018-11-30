@@ -4,7 +4,9 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -13,22 +15,35 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ayuan.mobilesafe.activity.R;
 import com.ayuan.mobilesafe.engine.AddressDao;
-
-import org.w3c.dom.Text;
 
 public class AddressService extends Service {
 
 	private String TAG = "AddressService";
 	private TelephonyManager mTelephonyManager;
 	private MyPhoneStateListener myPhoneStateListener;
-
 	private final WindowManager.LayoutParams mParams = new WindowManager.LayoutParams();
 	private View mToastInflate;
 	private WindowManager mWindowManager;
+	private TextView tv_toast;
+
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			int what = msg.what;
+			switch (what) {
+				case 0:
+					if (mToastInflate != null && tv_toast != null) {
+						String address = (String) msg.obj;
+						tv_toast.setText(address);
+					}
+					break;
+			}
+		}
+	};
 
 	@Nullable
 	@Override
@@ -60,7 +75,6 @@ public class AddressService extends Service {
 
 	private class MyPhoneStateListener extends PhoneStateListener {
 		//3.电话状态发生改变会触发的方法
-
 		@Override
 		public void onCallStateChanged(int state, String phoneNumber) {
 			super.onCallStateChanged(state, phoneNumber);
@@ -102,13 +116,28 @@ public class AddressService extends Service {
 		params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON/*让屏幕开启的时候显示Toast*/
 				| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;/*不能获取焦点*/
 		//指定Toast的位置
-		params.gravity = Gravity.LEFT;//(指定显示在左边)
+		params.gravity = Gravity.LEFT + Gravity.TOP;//(指定显示在左边)
 		//Toast显示效果(Toast的布局文件),xml----->view（Toast），将Toast挂载到windowManager窗体上
 		mToastInflate = View.inflate(getApplicationContext(), R.layout.toast_view, null);
+		//找到需要显示内容的控件
+		tv_toast = (TextView) mToastInflate.findViewById(R.id.tv_toast);
 		//在窗体上挂载一个View(需要添加权限)
 		mWindowManager.addView(mToastInflate, params);
-		TextView tv_toast = (TextView) mToastInflate.findViewById(R.id.tv_toast);
-		String address = AddressDao.getAddress(phoneNumber);
-		tv_toast.setText(address);
+		query(phoneNumber);
+	}
+
+	//电话号码的查询操作
+	private void query(final String phoneNumber) {
+		new Thread() {
+			@Override
+			public void run() {
+				super.run();
+				String address = AddressDao.getAddress(phoneNumber);
+				Message message = Message.obtain();
+				message.obj = address;
+				message.what = 0;
+				mHandler.sendMessage(message);
+			}
+		}.start();
 	}
 }
