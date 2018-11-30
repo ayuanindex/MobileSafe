@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.ayuan.mobilesafe.service.AddressService;
 import com.ayuan.mobilesafe.utils.ConstantValue;
@@ -121,26 +120,42 @@ public class SettingActivity extends AppCompatActivity {
 		scv_toast_style.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				//5.显示Toast样式的对话框
 				showToastStyleDialog(toastStyleDes);
 			}
 		});
 	}
 
 	/**
-	 * 这是弹出选择颜色的对话框
+	 * 创建Toast选择样式的对话框
 	 *
-	 * @param toastStyleDes
+	 * @param toastStyleDes 对话框需要显示的数据列表（数组）
 	 */
 	private void showToastStyleDialog(final String[] toastStyleDes) {
+		final int toast_style = SpUtils.getInt(SettingActivity.this, ConstantValue.TOAST_STYLE, 0);
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setItems(toastStyleDes, new DialogInterface.OnClickListener() {
+		builder.setIcon(R.mipmap.mobilesafe);
+		builder.setTitle("请选择样式");
+		//单个选择条目的事件监听(items：String类型的数组，checkedItem：已经存在的索引，listener：点击条目的事件监听)
+		builder.setSingleChoiceItems(toastStyleDes, toast_style, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				if (scv_toast_style != null) {
 					scv_toast_style.setDes(toastStyleDes[which]);
 					SpUtils.putInt(SettingActivity.this, ConstantValue.TOAST_STYLE, which);
-					Toast.makeText(SettingActivity.this, "选择了" + toastStyleDes[which], Toast.LENGTH_SHORT).show();
+					dialog.dismiss();
 				}
+			}
+		});
+
+		//取消条目的事件
+		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if (scv_toast_style != null) {
+					scv_toast_style.setDes(toastStyleDes[toast_style]);
+				}
+				dialog.dismiss();
 			}
 		});
 		builder.show();

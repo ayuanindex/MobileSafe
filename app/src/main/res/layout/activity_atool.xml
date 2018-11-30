@@ -6,14 +6,14 @@
 
 	<TextView
 		style="@style/TitleStyle"
-		android:layout_marginBottom="10dp"
 		android:text="高级工具" />
 
 
 	<LinearLayout
+		style="@style/SetEntryMargins"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:padding="5dp">
+		android:layout_marginTop="5dp">
 
 		<TextView
 			android:id="@+id/tv_query_phone_address"

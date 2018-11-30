@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import com.ayuan.mobilesafe.activity.R;
 import com.ayuan.mobilesafe.engine.AddressDao;
+import com.ayuan.mobilesafe.utils.ConstantValue;
+import com.ayuan.mobilesafe.utils.SpUtils;
 
 public class AddressService extends Service {
 
@@ -28,6 +30,14 @@ public class AddressService extends Service {
 	private View mToastInflate;
 	private WindowManager mWindowManager;
 	private TextView tv_toast;
+	private int[] toastStyles = new int[]{
+			R.drawable.call_locate_white,
+			R.drawable.call_locate_orange,
+			R.drawable.call_locate_blue,
+			R.drawable.call_locate_gray,
+			R.drawable.call_locate_green
+	};//存储图片所在对的索引
+
 
 	private Handler mHandler = new Handler() {
 		@Override
@@ -38,6 +48,8 @@ public class AddressService extends Service {
 				case 0:
 					if (mToastInflate != null && tv_toast != null) {
 						String address = (String) msg.obj;
+						int toastStyleIndex = SpUtils.getInt(AddressService.this, ConstantValue.TOAST_STYLE, 0);
+						tv_toast.setBackgroundResource(toastStyles[toastStyleIndex]);
 						tv_toast.setText(address);
 					}
 					break;

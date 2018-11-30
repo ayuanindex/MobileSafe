@@ -16,35 +16,39 @@
 
 		<com.ayuan.mobilesafe.view.SettingItemView xmlns:mobilesafe="http://schemas.android.com/apk/com.ayuan.mobilesafe"
 			android:id="@+id/siv_update"
+			style="@style/SetEntryMargins"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:layout_marginTop="0dp"
 			android:background="@drawable/selector_atool_item_bg"
-			android:paddingLeft="3dp"
-			android:paddingRight="3dp"
 			mobilesafe:desoff="自动更新已关闭"
 			mobilesafe:deson="自动更新已开启"
 			mobilesafe:destitle="自动更新设置" />
 
 		<com.ayuan.mobilesafe.view.SettingItemView xmlns:mobilesafe="http://schemas.android.com/apk/com.ayuan.mobilesafe"
 			android:id="@+id/siv_address"
+			style="@style/SetEntryMargins"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="3dp"
+			android:layout_marginTop="1dp"
 			android:background="@drawable/selector_atool_item_bg"
-			android:paddingLeft="3dp"
-			android:paddingRight="3dp"
 			mobilesafe:desoff="归属地显示已关闭"
 			mobilesafe:deson="归属地显示已开启"
 			mobilesafe:destitle="电话归属地的显示设置" />
 
 		<com.ayuan.mobilesafe.view.SettingClickView
 			android:id="@+id/scv_toast_style"
+			style="@style/SetEntryMargins"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="3dp"
-			android:background="@drawable/selector_atool_item_bg"
-			android:paddingLeft="3dp"
-			android:paddingRight="3dp" />
+			android:background="@drawable/selector_atool_item_bg" />
+
+		<com.ayuan.mobilesafe.view.SettingClickView
+			style="@style/SetEntryMargins"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="1dp"
+			android:background="@drawable/selector_atool_item_bg" />
 	</LinearLayout>
 	<!--
 		SettingItemView需要在构建布局的时候是定行营的title和des的字符串内容

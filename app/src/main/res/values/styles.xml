@@ -54,4 +54,10 @@
 		<item name="android:drawableLeft">@android:drawable/ic_media_rew</item>
 		<item name="android:background">@drawable/selector_next_button_bg</item>
 	</style>
+
+	<style name="SetEntryMargins">
+		<item name="android:paddingLeft">4dp</item>
+		<item name="android:paddingRight">4dp</item>
+		<item name="android:layout_marginTop">4dp</item>
+	</style>
 </resources>
