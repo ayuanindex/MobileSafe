@@ -34,11 +34,4 @@
 		android:clickable="false"
 		android:focusable="false"
 		android:focusableInTouchMode="false" />
-
-	<View
-		android:layout_width="match_parent"
-		android:layout_height="1dp"
-		android:layout_below="@id/tv_des"
-		android:background="#000000"
-		android:paddingTop="5dp" />
 </RelativeLayout>

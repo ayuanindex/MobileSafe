@@ -1,17 +1,21 @@
 package com.ayuan.mobilesafe.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ayuan.mobilesafe.service.AddressService;
 import com.ayuan.mobilesafe.utils.ConstantValue;
 import com.ayuan.mobilesafe.utils.ServiceUtils;
 import com.ayuan.mobilesafe.utils.SpUtils;
+import com.ayuan.mobilesafe.view.SettingClickView;
 import com.ayuan.mobilesafe.view.SettingItemView;
 
 /**
@@ -21,6 +25,7 @@ public class SettingActivity extends AppCompatActivity {
 
 	private String TAG = "SettingActivity";
 	private GestureDetector gestureDetector;
+	private SettingClickView scv_toast_style;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +35,9 @@ public class SettingActivity extends AppCompatActivity {
 		initUI();
 		initUpdate();
 		initAddress();
+		initToastStyle();
 	}
+
 
 	/**
 	 * 初始化UI
@@ -96,6 +103,47 @@ public class SettingActivity extends AppCompatActivity {
 				}
 			}
 		});
+	}
+
+	/**
+	 * 设置号码归属地显示风格
+	 */
+	private void initToastStyle() {
+		scv_toast_style = (SettingClickView) findViewById(R.id.scv_toast_style);
+		//1.创建描述文字所在的数组
+		final String[] toastStyleDes = {"透明", "橙色", "蓝色", "灰色", "绿色"};
+		//2.通过Sp获取Toast显示样式的索引值，用于描述文字
+		final int toast_style = SpUtils.getInt(SettingActivity.this, ConstantValue.TOAST_STYLE, 0);
+		//3.通过索引，获取字符串中的文字，将其显示在控件上
+		scv_toast_style.setTitle("设置归属地显示风格");
+		scv_toast_style.setDes(toastStyleDes[toast_style]);
+		//4.监听点击事件，弹出对话框
+		scv_toast_style.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showToastStyleDialog(toastStyleDes);
+			}
+		});
+	}
+
+	/**
+	 * 这是弹出选择颜色的对话框
+	 *
+	 * @param toastStyleDes
+	 */
+	private void showToastStyleDialog(final String[] toastStyleDes) {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setItems(toastStyleDes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if (scv_toast_style != null) {
+					scv_toast_style.setDes(toastStyleDes[which]);
+					SpUtils.putInt(SettingActivity.this, ConstantValue.TOAST_STYLE, which);
+					Toast.makeText(SettingActivity.this, "选择了" + toastStyleDes[which], Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+		builder.show();
 	}
 
 	@Override

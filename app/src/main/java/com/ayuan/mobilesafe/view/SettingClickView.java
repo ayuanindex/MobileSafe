@@ -29,8 +29,6 @@ public class SettingClickView extends RelativeLayout {
 		//获取自定义组合控件里面的控件
 		tv_title = (TextView) findViewById(R.id.tv_title);
 		tv_des = (TextView) findViewById(R.id.tv_des);
-		tv_title.setText("设置归属地显示风格");
-		tv_des.setText("黑色");
 	}
 
 	/**
