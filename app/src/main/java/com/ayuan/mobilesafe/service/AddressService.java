@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ayuan.mobilesafe.activity.R;
@@ -51,6 +52,17 @@ public class AddressService extends Service {
 						int toastStyleIndex = SpUtils.getInt(AddressService.this, ConstantValue.TOAST_STYLE, 0);
 						tv_toast.setBackgroundResource(toastStyles[toastStyleIndex]);
 						tv_toast.setText(address);
+						int locationX = SpUtils.getInt(getApplicationContext(), ConstantValue.LOCATION_X, 0);
+						int locationY = SpUtils.getInt(getApplicationContext(), ConstantValue.LOCATION_Y, 0);
+						//左上角坐标作用在iv_drag上
+						//ImageView在相对布局中，所以其所在位置的规则需要由相对布局提供
+						//指定宽高都是warp_content
+						RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+						//将左上角的坐标作用在iv_drag对应规则参数上
+						layoutParams.leftMargin = locationX;
+						layoutParams.topMargin = locationY;
+						//将以上规则作用在iv_drag上
+						tv_toast.setLayoutParams(layoutParams);
 					}
 					break;
 			}
@@ -128,7 +140,7 @@ public class AddressService extends Service {
 		params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON/*让屏幕开启的时候显示Toast*/
 				| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;/*不能获取焦点*/
 		//指定Toast的位置
-		params.gravity = Gravity.LEFT + Gravity.TOP;//(指定显示在左边)
+		params.gravity = Gravity.LEFT + Gravity.TOP;//(指定显示在左上角)
 		//Toast显示效果(Toast的布局文件),xml----->view（Toast），将Toast挂载到windowManager窗体上
 		mToastInflate = View.inflate(getApplicationContext(), R.layout.toast_view, null);
 		//找到需要显示内容的控件

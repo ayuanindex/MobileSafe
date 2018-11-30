@@ -9,17 +9,17 @@
 		android:text="设置中心" />
 
 	<LinearLayout
+		style="@style/SetEntryMargins"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		android:padding="5dp">
+		android:layout_marginTop="0dp"
+		android:orientation="vertical">
 
 		<com.ayuan.mobilesafe.view.SettingItemView xmlns:mobilesafe="http://schemas.android.com/apk/com.ayuan.mobilesafe"
 			android:id="@+id/siv_update"
 			style="@style/SetEntryMargins"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="0dp"
 			android:background="@drawable/selector_atool_item_bg"
 			mobilesafe:desoff="自动更新已关闭"
 			mobilesafe:deson="自动更新已开启"
@@ -44,6 +44,7 @@
 			android:background="@drawable/selector_atool_item_bg" />
 
 		<com.ayuan.mobilesafe.view.SettingClickView
+			android:id="@+id/scv_location"
 			style="@style/SetEntryMargins"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"

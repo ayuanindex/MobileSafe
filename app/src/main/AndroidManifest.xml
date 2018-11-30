@@ -77,6 +77,9 @@
 		<activity
 			android:name=".QueryAddressActivity"
 			android:launchMode="singleTask"></activity><!--号码归属地查询界面-->
+		<activity
+			android:name=".ToastLocationActivity"
+			android:launchMode="singleTask"></activity><!--设置Toast显示位置的界面-->
 		<!--广播接收者===========================================================================-->
 		<receiver android:name="com.ayuan.mobilesafe.receiver.BootReceiver">
 			<intent-filter>

@@ -25,6 +25,7 @@ public class SettingActivity extends AppCompatActivity {
 	private String TAG = "SettingActivity";
 	private GestureDetector gestureDetector;
 	private SettingClickView scv_toast_style;
+	private SettingClickView scv_location;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +36,22 @@ public class SettingActivity extends AppCompatActivity {
 		initUpdate();
 		initAddress();
 		initToastStyle();
+		initLocation();
+	}
+
+	/**
+	 * 双击居中View所在屏幕位置的处理方法
+	 */
+	private void initLocation() {
+		scv_location = (SettingClickView) findViewById(R.id.scv_location);
+		scv_location.setTitle("归属地提示框的位置");
+		scv_location.setDes("设置归属地提示框的位置");
+		scv_location.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(getApplicationContext(), ToastLocationActivity.class));
+			}
+		});
 	}
 
 
