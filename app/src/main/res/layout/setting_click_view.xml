@@ -19,26 +19,17 @@
 		android:layout_below="@id/tv_title"
 		android:textColor="#000000" />
 
-	<!--
-		让当前的CheckBox不能被点击，即不能够响应实际
-		android:clickable="false"将此控件设置为不能点击
-		android:focusableInTouchMode="false"使得此控件即使被点击了也不能够获取焦点
-		android:focusable="false"将此控件设置为不能过去焦点
-	-->
-	<CheckBox
-		android:id="@+id/cb_box"
+	<ImageView
+		android:id="@+id/iv_arrow"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_alignParentRight="true"
 		android:layout_centerVertical="true"
-		android:clickable="false"
-		android:focusable="false"
-		android:focusableInTouchMode="false" />
+		android:background="@drawable/jiantou1_pressed" />
 
 	<View
 		android:layout_width="match_parent"
 		android:layout_height="1dp"
 		android:layout_below="@id/tv_des"
-		android:background="#000000"
-		android:paddingTop="5dp" />
+		android:background="#000000" />
 </RelativeLayout>
