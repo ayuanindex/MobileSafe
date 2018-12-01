@@ -13,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.ayuan.mobilesafe.utils.ConstantValue;
 import com.ayuan.mobilesafe.utils.SpUtils;
@@ -30,6 +29,8 @@ public class ToastLocationActivity extends AppCompatActivity {
 	private WindowManager mWindowManager;
 	private long startTime = 0;
 	private long[] mHits = new long[2];
+	private int mScreenWidth;
+	private int mScreenHeight;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,8 +51,10 @@ public class ToastLocationActivity extends AppCompatActivity {
 		btn_bottom = (Button) findViewById(R.id.btn_bottom);
 		mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 		Display defaultDisplay = mWindowManager.getDefaultDisplay();
-		int screenWidth = defaultDisplay.getWidth();//屏幕宽度
-		int screenHeight = defaultDisplay.getHeight();//屏幕高度
+		//屏幕宽度
+		mScreenWidth = defaultDisplay.getWidth();
+		//屏幕高度
+		mScreenHeight = defaultDisplay.getHeight();
 
 		int locationX = SpUtils.getInt(getApplicationContext(), ConstantValue.LOCATION_X, 0);
 		int locationY = SpUtils.getInt(getApplicationContext(), ConstantValue.LOCATION_Y, 0);
@@ -65,7 +68,7 @@ public class ToastLocationActivity extends AppCompatActivity {
 		//将以上规则作用在iv_drag上
 		iv_drag.setLayoutParams(layoutParams);
 
-		if (locationY > (screenHeight / 2) - 70) {
+		if (locationY > (mScreenHeight / 2) - 70) {
 			if (btn_top != null && btn_bottom != null) {
 				btn_top.setVisibility(View.VISIBLE);//显示顶部控件
 				btn_bottom.setVisibility(View.INVISIBLE);//隐藏底部控件
@@ -77,17 +80,27 @@ public class ToastLocationActivity extends AppCompatActivity {
 			}
 		}
 
+		//设置多击事件
 		iv_drag.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
 				mHits[mHits.length - 1] = SystemClock.uptimeMillis();
 				if (mHits[mHits.length - 1] - mHits[0] < 500) {
-					Toast.makeText(ToastLocationActivity.this, "Hah", Toast.LENGTH_SHORT).show();
+					//满足双击事件后的代码块
+					int left = mScreenWidth / 2 - iv_drag.getWidth() / 2;
+					int top = mScreenHeight / 2 - iv_drag.getHeight() / 2;
+					int right = mScreenWidth / 2 + iv_drag.getWidth() / 2;
+					int bottom = mScreenHeight / 2 + iv_drag.getHeight() / 2;
+					//将控件按照以下规则显示
+					iv_drag.layout(left, top, right, bottom);
+					int locationX = iv_drag.getLeft();
+					int locationY = iv_drag.getTop();
+					SpUtils.putInt(ToastLocationActivity.this, ConstantValue.LOCATION_X, locationX);
+					SpUtils.putInt(ToastLocationActivity.this, ConstantValue.LOCATION_Y, locationY);
 				}
 			}
 		});
-
 
 		//监听某一个控件的拖拽过程(按下，移动，抬起)
 		iv_drag.setOnTouchListener(new View.OnTouchListener() {
@@ -120,13 +133,9 @@ public class ToastLocationActivity extends AppCompatActivity {
 						int right = iv_drag.getRight() + disX;//距离屏幕右边的距离
 						int bottom = iv_drag.getBottom() + disY;//距离图片下边的距离
 						//容错处理(iv_drag不能拖拽出手机屏幕)
-						if (left < 0 || top < 0 || right > screenWidth || bottom > screenHeight) {
+						/*if (left <= 0 || top < 0 || right > mScreenWidth || bottom > mScreenHeight) {
 							return true;
-						}
-						if (bottom > screenHeight - 50) {
-							iv_drag.layout(left, top, right, screenHeight - 50);
-							break;
-						}
+						}*/
 						if (top > (screenHeight / 2) - 70) {
 							if (btn_top != null && btn_bottom != null) {
 								btn_top.setVisibility(View.VISIBLE);//显示顶部控件
@@ -139,7 +148,30 @@ public class ToastLocationActivity extends AppCompatActivity {
 							}
 						}
 						//2.告知移动的控件，按照计算出来的坐标去做展示
-						iv_drag.layout(left, top, right, bottom);
+						//iv_drag.layout(left, top, right, bottom);
+						RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+						//将左上角的坐标作用在iv_drag对应规则参数上
+						layoutParams.leftMargin = left;
+						layoutParams.topMargin = top;
+						//下面是对控件位置进行越界干涉
+						if (left < 0) {
+							layoutParams.leftMargin = 0;
+							layoutParams.topMargin = top;
+						}
+						if (right > screenWidth) {
+							layoutParams.leftMargin = screenWidth - iv_drag.getWidth();
+							layoutParams.topMargin = top;
+						}
+						if (top < 0) {
+							layoutParams.leftMargin = left;
+							layoutParams.topMargin = 0;
+						}
+						if (bottom > screenHeight) {
+							layoutParams.leftMargin = left;
+							layoutParams.topMargin = iv_drag.getTop();
+						}
+						//将以上规则作用在iv_drag上
+						iv_drag.setLayoutParams(layoutParams);
 						//3.重置起始坐标
 						startX = (int) event.getRawX();
 						startY = (int) event.getRawY();
@@ -150,7 +182,8 @@ public class ToastLocationActivity extends AppCompatActivity {
 						SpUtils.putInt(getApplicationContext(), ConstantValue.LOCATION_Y, iv_drag.getTop());
 						break;
 				}
-				return true;/*一定一定要记得把此值设为true*/
+				//既要相应点击事件，又要响应拖拽过程，结果需要修改为false
+				return false;/*一定一定要记得把此值设为true*/
 			}
 		});
 	}
