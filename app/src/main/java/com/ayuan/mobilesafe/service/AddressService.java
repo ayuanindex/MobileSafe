@@ -1,8 +1,10 @@
 package com.ayuan.mobilesafe.service;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.IBinder;
@@ -10,7 +12,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -59,6 +60,7 @@ public class AddressService extends Service {
 			}
 		}
 	};
+	private InnerOutCallReceiver mInnerOutCallReceiver;
 
 	@Nullable
 	@Override
@@ -82,6 +84,25 @@ public class AddressService extends Service {
 		mScreenWidth = defaultDisplay.getWidth();
 		//屏幕高度
 		mScreenHeight = defaultDisplay.getHeight();
+
+		//监听播出电话的广播接收者
+		IntentFilter intentFilter = new IntentFilter();
+		//监听的过滤条件
+		intentFilter.addAction(Intent.ACTION_NEW_OUTGOING_CALL);
+		//创建相应的广播接收者
+		mInnerOutCallReceiver = new InnerOutCallReceiver();
+		registerReceiver(mInnerOutCallReceiver, intentFilter);//注册广播接收者
+	}
+
+	private class InnerOutCallReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			//接收到广播之后需要显示自定义的Toast,显示播出号码的归属地
+			//获取播出电话号码的字符串
+			String phone = getResultData();
+			showToast(phone);//将号码传给弹出Toast的方法，让其把号码显示在控件上
+		}
 	}
 
 	@Override
@@ -90,6 +111,9 @@ public class AddressService extends Service {
 		//销毁Toast，取消对电话状态的监听
 		if (myPhoneStateListener != null && mTelephonyManager != null) {
 			mTelephonyManager.listen(myPhoneStateListener, PhoneStateListener.LISTEN_NONE);
+		}
+		if (mInnerOutCallReceiver != null) {
+			unregisterReceiver(mInnerOutCallReceiver);
 		}
 	}
 
@@ -101,7 +125,6 @@ public class AddressService extends Service {
 			switch (state) {
 				case TelephonyManager.CALL_STATE_IDLE:
 					//空闲状态，没有任何活动(移除Toast)
-					Log.i(TAG, "现在是空闲状状态");
 					//挂断电话的时候窗体需要去移除Toast
 					if (mToastInflate != null && mWindowManager != null) {
 						mWindowManager.removeView(mToastInflate);
@@ -109,11 +132,9 @@ public class AddressService extends Service {
 					break;
 				case TelephonyManager.CALL_STATE_OFFHOOK:
 					//摘机状态（接听电话）
-					Log.i(TAG, "现在是摘机状态");
 					break;
 				case TelephonyManager.CALL_STATE_RINGING:
 					//响铃的状态（在响铃是展示Toast）
-					Log.i(TAG, "现在是响铃状态");
 					showToast(phoneNumber);
 					break;
 			}
