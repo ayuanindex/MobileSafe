@@ -11,10 +11,11 @@ import android.support.annotation.Nullable;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ayuan.mobilesafe.activity.R;
@@ -30,6 +31,8 @@ public class AddressService extends Service {
 	private final WindowManager.LayoutParams mParams = new WindowManager.LayoutParams();
 	private View mToastInflate;
 	private WindowManager mWindowManager;
+	private int mScreenWidth;
+	private int mScreenHeight;
 	private TextView tv_toast;
 	private int[] toastStyles = new int[]{
 			R.drawable.call_locate_white,
@@ -38,7 +41,6 @@ public class AddressService extends Service {
 			R.drawable.call_locate_gray,
 			R.drawable.call_locate_green
 	};//存储图片所在对的索引
-
 
 	private Handler mHandler = new Handler() {
 		@Override
@@ -52,17 +54,6 @@ public class AddressService extends Service {
 						int toastStyleIndex = SpUtils.getInt(AddressService.this, ConstantValue.TOAST_STYLE, 0);
 						tv_toast.setBackgroundResource(toastStyles[toastStyleIndex]);
 						tv_toast.setText(address);
-						int locationX = SpUtils.getInt(getApplicationContext(), ConstantValue.LOCATION_X, 0);
-						int locationY = SpUtils.getInt(getApplicationContext(), ConstantValue.LOCATION_Y, 0);
-						//左上角坐标作用在iv_drag上
-						//ImageView在相对布局中，所以其所在位置的规则需要由相对布局提供
-						//指定宽高都是warp_content
-						RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-						//将左上角的坐标作用在iv_drag对应规则参数上
-						layoutParams.leftMargin = locationX;
-						layoutParams.topMargin = locationY;
-						//将以上规则作用在iv_drag上
-						tv_toast.setLayoutParams(layoutParams);
 					}
 					break;
 			}
@@ -86,6 +77,11 @@ public class AddressService extends Service {
 		mTelephonyManager.listen(myPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
 		//获取窗口管理者对象
 		mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+		Display defaultDisplay = mWindowManager.getDefaultDisplay();
+		//屏幕宽度
+		mScreenWidth = defaultDisplay.getWidth();
+		//屏幕高度
+		mScreenHeight = defaultDisplay.getHeight();
 	}
 
 	@Override
@@ -145,9 +141,68 @@ public class AddressService extends Service {
 		mToastInflate = View.inflate(getApplicationContext(), R.layout.toast_view, null);
 		//找到需要显示内容的控件
 		tv_toast = (TextView) mToastInflate.findViewById(R.id.tv_toast);
+		int locationX = SpUtils.getInt(getApplicationContext(), ConstantValue.LOCATION_X, 0);
+		int locationY = SpUtils.getInt(getApplicationContext(), ConstantValue.LOCATION_Y, 0);
+		params.x = locationX;
+		params.y = locationY;
 		//在窗体上挂载一个View(需要添加权限)
 		mWindowManager.addView(mToastInflate, params);
 		query(phoneNumber);
+
+		tv_toast.setOnTouchListener(new View.OnTouchListener() {
+			private int startX;
+			private int startY;
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				int action = event.getAction();
+				switch (action) {
+					case MotionEvent.ACTION_DOWN:
+						startX = (int) event.getRawX();
+						startY = (int) event.getRawY();
+						break;
+					case MotionEvent.ACTION_MOVE:
+						//每次移动一点就去一次值进行偏移量的计算
+						int moveX = (int) event.getRawX();
+						int moveY = (int) event.getRawY();
+						//计算偏移量
+						int disX = moveX - startX;
+						int disY = moveY - startY;
+						//2.告知移动的控件，按照计算出来的坐标去做展示
+						params.x = disX + params.x;
+						params.y = disY + params.y;
+						//容错处理
+						if (params.x < 0) {
+							params.x = 0;
+						}
+
+						if (params.y < 0) {
+							params.y = 0;
+						}
+
+						if (params.x > mScreenWidth - mToastInflate.getWidth()) {
+							params.x = mScreenWidth - mToastInflate.getWidth();
+						}
+
+						if (params.y > mScreenHeight - mToastInflate.getHeight()) {
+							params.y = mScreenHeight - mToastInflate.getHeight();
+						}
+
+						//告知窗体Toast需要按照手势的移动进行移动
+						mWindowManager.updateViewLayout(mToastInflate, params);
+						//3.重置起始坐标
+						startX = (int) event.getRawX();
+						startY = (int) event.getRawY();
+						break;
+					case MotionEvent.ACTION_UP:
+						SpUtils.putInt(AddressService.this, ConstantValue.LOCATION_X, params.x);
+						SpUtils.putInt(AddressService.this, ConstantValue.LOCATION_Y, params.y);
+						break;
+				}
+				//既要相应点击事件，又要响应拖拽过程，结果需要修改为false
+				return true;/*一定一定要记得把此值设为true*/
+			}
+		});
 	}
 
 	//电话号码的查询操作
