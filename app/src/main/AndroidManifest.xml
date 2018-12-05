@@ -82,6 +82,9 @@
 		<activity
 			android:name=".ToastLocationActivity"
 			android:launchMode="singleTask"></activity><!--设置Toast显示位置的界面-->
+		<activity
+			android:name=".BlackNumberActivity"
+			android:launchMode="singleTask"></activity><!--通信卫士的页面-->
 		<!--广播接收者===========================================================================-->
 		<receiver android:name="com.ayuan.mobilesafe.receiver.BootReceiver">
 			<intent-filter>

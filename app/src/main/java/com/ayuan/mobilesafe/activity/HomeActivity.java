@@ -73,6 +73,7 @@ public class HomeActivity extends AppCompatActivity {
 							break;
 						case 1:
 							//通信卫士
+							startActivity(new Intent(getApplicationContext(),BlackNumberActivity.class));
 							break;
 						case 2:
 							//软件管理
