@@ -4,10 +4,16 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.ayuan.mobilesafe.db.dao.BlackNumberDao;
+import com.ayuan.mobilesafe.db.domain.BlackNumberInfo;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Instrumented test, which will execute on an Android device.

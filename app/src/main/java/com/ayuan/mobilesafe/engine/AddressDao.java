@@ -2,11 +2,6 @@ package com.ayuan.mobilesafe.engine;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.service.autofill.RegexValidator;
-import android.util.Log;
-
-import java.util.regex.Pattern;
-
 
 public class AddressDao {
 	private static final String TAG = "AddressDao";

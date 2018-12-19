@@ -4,14 +4,33 @@
 	android:layout_height="match_parent"
 	android:orientation="vertical">
 
-	<RelativeLayout
+	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 
 		<TextView
 			style="@style/TitleStyle"
+			android:focusable="false"
 			android:text="黑名单管理" />
 
-	</RelativeLayout>
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical">
 
+			<ImageView
+				android:id="@+id/iv_add"
+				android:layout_width="40dp"
+				android:layout_height="40dp"
+				android:layout_alignParentRight="true"
+				android:layout_marginTop="5dp"
+				android:background="@drawable/add_btn_bg"
+				android:paddingRight="8dp" />
+		</RelativeLayout>
+	</FrameLayout>
+
+	<ListView
+		android:id="@+id/lv_blacknumber"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"></ListView>
 </LinearLayout>
