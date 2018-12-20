@@ -4,14 +4,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ayuan.mobilesafe.db.dao.BlackNumberDao;
 import com.ayuan.mobilesafe.db.domain.BlackNumberInfo;
@@ -27,6 +35,7 @@ public class BlackNumberActivity extends AppCompatActivity {
     private BlackNumberDao mBlackNumberDao;
     private ArrayList<BlackNumberInfo> mBlackNumberInfos;
     private BlackNumberAdapter mBlackNumberAdapter;
+    private int mode;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -58,8 +67,71 @@ public class BlackNumberActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ToastUtil.showShort(BlackNumberActivity.this, "正在添加");
+                showDialog();
             }
         });
+    }
+
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog alertDialog = builder.create();
+        View inflate = View.inflate(this, R.layout.dialog_add_blacknumber, null);
+        alertDialog.setView(inflate, 0, 0, 0, 0);
+
+        final EditText et_phone = (EditText) inflate.findViewById(R.id.et_phone);
+        RadioGroup rg_group = (RadioGroup) inflate.findViewById(R.id.rg_group);
+        Button btn_submit = (Button) inflate.findViewById(R.id.btn_submit);
+        Button btn_cancel = (Button) inflate.findViewById(R.id.btn_cancel);
+
+        //监听其选中条目的切换过程
+        rg_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_sms:
+                        mode = 1;
+                        break;
+                    case R.id.rb_phone:
+                        mode = 2;
+                        break;
+                    case R.id.rb_all:
+                        mode = 3;
+                        break;
+                }
+            }
+        });
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //1.获取输入框中的电话号码
+                String phone = et_phone.getText().toString().trim();
+                if (!TextUtils.isEmpty(phone)) {
+                    //2.数据库的插入当前输入的拦截号码
+                    if (mBlackNumberDao == null) {
+                        mBlackNumberDao = BlackNumberDao.getInstance(BlackNumberActivity.this);
+                    }
+                    mBlackNumberDao.insert(phone, mode);
+                    //3.让数据库和集合保持同步(1.数据库中数据重新读一遍,2.手动向集合中添加一个对象(插入数据构建的对象))
+                    BlackNumberInfo blackNumberInfo = new BlackNumberInfo(phone, String.valueOf(mode));
+                    //4.将对象插入到集合的最顶部
+                    mBlackNumberInfos.add(0, blackNumberInfo);
+                    //5.通知数据适配器刷新(数据适配器中的数据有改变了)
+                    if (mBlackNumberAdapter != null) {
+                        mBlackNumberAdapter.notifyDataSetChanged();
+                        alertDialog.dismiss();
+                    }
+                } else {
+                    Toast.makeText(BlackNumberActivity.this, "请输入需要拦截的号码", Toast.LENGTH_SHORT).show();
+                    TranslateAnimation translateAnimation = new TranslateAnimation(-10, 10, 0, 0);
+                    translateAnimation.setDuration(50);
+                    translateAnimation.setRepeatCount(5);
+                    translateAnimation.setRepeatMode(Animation.REVERSE);
+                    et_phone.startAnimation(translateAnimation);
+                }
+            }
+        });
+
+        alertDialog.show();
     }
 
     private void initData() {

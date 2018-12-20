@@ -41,11 +41,10 @@ public class BlackNumberDao {
 
 	/**
 	 * 在数据库中添加一条记录
-	 *
-	 * @param phone 需要拦截的号码
+	 *  @param phone 需要拦截的号码
 	 * @param mode  拦截类型(1——》短信  2——》电话  3——》拦截所有(短信 + 电话))
-	 */
-	public void insert(String phone, String mode) {
+     */
+	public void insert(String phone, int mode) {
 		//1.开启数据库，准备做写入操作
 		SQLiteDatabase database = blackNumberOpenHelper.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
